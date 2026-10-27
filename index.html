@@ -80,23 +80,164 @@ dialog.red{border:3px solid #c0392b;background:#fff0ee;color:#7a1f14;width:min(4
 .dn{font:800 19px Inter,sans-serif;color:var(--green)}@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .dn{color:var(--gold)}}
 .pg .dname{font:800 24px Inter,sans-serif;color:#243B32}.pg .np{break-before:page;page-break-before:always}.pg h2.pdh{background:#243B32;color:#fff;padding:5px 10px;border-radius:6px;font-size:15px}.pg .tm2{font-weight:700;background:#F2C94C;color:#111;display:inline-block;padding:3px 12px;border-radius:999px;margin:10px 0 4px;font-size:13px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#admin-login[style*="display:flex"]{display:flex!important}
 </style><style id="pg"></style></head><body>
-<header><h1>Wedding Hospitality Concierge</h1><span>Guests · Hotels · Arrivals · Transport</span></header>
-<nav id="nav"></nav><main id="m"></main><dialog id="dlg"></dialog><div id="pv"></div>
+<header><h1>Wedding Hospitality Concierge</h1><span>Guests · Hotels · Arrivals · Transport</span><button id="admin-signout" class="b g" style="margin-left:auto" hidden onclick="signOutAdmin()">Sign out</button></header>
+
+<div id="admin-login" style="display:flex;position:fixed;inset:0;z-index:99999;background:#151c18;color:#fff;align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
+  <form id="admin-login-form" style="width:100%;max-width:380px;padding:28px;border:1px solid #536456;border-radius:16px;background:#1f2922;box-sizing:border-box">
+    <h2>Wedding Admin</h2>
+    <p>Sign in to manage wedding guests and transport.</p>
+
+    <label for="admin-email">Administrator email</label>
+    <input id="admin-email" type="email" autocomplete="username" required style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0 16px">
+
+    <label for="admin-password">Password</label>
+    <input id="admin-password" type="password" autocomplete="current-password" required style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0 16px">
+
+    <button type="submit" style="width:100%;padding:12px;cursor:pointer">Sign in</button>
+
+    <p id="admin-login-error" role="alert" style="color:#ffaaaa"></p>
+  </form>
+</div>
+
+<nav id="nav" hidden></nav>
+<main id="m" hidden></main>
+<dialog id="dlg"></dialog>
+<div id="pv"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const H=["Welina Hotels Bhubaneswar","Marigold Hotels Bhubaneswar","Transitel Hotel Kolkata"];
 const C={"Welina Hotels Bhubaneswar":"Bhubaneswar, Odisha","Marigold Hotels Bhubaneswar":"Bhubaneswar, Odisha","Transitel Hotel Kolkata":"Kolkata, West Bengal"};
 const TABS=["Dashboard","Guests","Hotels","Arrivals","Transport","Data"];
-let tab="Dashboard",q="",hf="",sf="",S;
+let tab="Dashboard",q="",hf="",sf="";
 const e=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const D2=t=>{if(!t)return"";const m=String(t).match(/^(\d{4})-(\d\d)-(\d\d)(?:T(\d\d:\d\d))?/);return m?m[3]+"/"+m[2]+"/"+m[1]+(m[4]?" "+m[4]:""):t};
 const D2I=s=>{if(!s)return"";const m=s.match(/^(\d{1,2})[\/\-. ](\d{1,2})[\/\-. ](\d{4})\s+(\d{1,2}):(\d\d)$/);if(!m)return null;const z=n=>String(n).padStart(2,"0"),d=+m[1],mo=+m[2],y=+m[3],h=+m[4],mi=+m[5],t=new Date(y,mo-1,d);if(t.getMonth()!=mo-1||t.getDate()!=d||h>23||mi>59)return null;return y+"-"+z(mo)+"-"+z(d)+"T"+z(h)+":"+m[5]};
 const NOW=()=>{const d=new Date(),z=n=>String(n).padStart(2,"0");return z(d.getDate())+"/"+z(d.getMonth()+1)+"/"+d.getFullYear()+" "+z(d.getHours())+":"+z(d.getMinutes())};
 const f=t=>t?e(D2(t)):"—";
-function load(){try{const r=JSON.parse(localStorage.getItem("wh1")||"null");if(r&&r.g)return r}catch(x){}return{g:[],d:[],v:[]}}
-function save(){try{localStorage.setItem("wh1",JSON.stringify(S))}catch(x){}toast("Saved")}
-function toast(m){document.querySelectorAll("#ts").forEach(x=>x.remove());const t=document.createElement("div");t.id="ts";t.setAttribute("role","status");t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2000)}
-S=load();
+const supabase = window.supabase.createClient(
+  "https://gulificjlukbghcugnsk.supabase.co",
+  "sb_publishable_UJk6_1GAyUlAY_ZR2oQ2ZA_HujBlwAN"
+);
+
+let S = { g: [], d: [], v: [] };
+let adminReady = false;
+const DEFAULT_DATA = () => ({ g: [], d: [], v: [] });
+const loginEl = document.getElementById("admin-login");
+const loginForm = document.getElementById("admin-login-form");
+const loginError = document.getElementById("admin-login-error");
+
+function showLogin(message = "") {
+  adminReady = false;
+  loginEl.style.display = "flex";
+  document.getElementById("nav").hidden = true;
+  document.getElementById("m").hidden = true;
+  document.getElementById("admin-signout").hidden = true;
+  loginError.textContent = message;
+}
+function showApp() {
+  loginEl.style.display = "none";
+  document.getElementById("nav").hidden = false;
+  document.getElementById("m").hidden = false;
+  document.getElementById("admin-signout").hidden = false;
+}
+async function signOutAdmin() {
+  const { error } = await supabase.auth.signOut();
+  if (error) { toast(error.message || "Could not sign out"); return; }
+  adminReady = false;
+  S = DEFAULT_DATA();
+  document.getElementById("admin-signout").hidden = true;
+  showLogin();
+}
+
+async function load() {
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) throw sessionError;
+  if (!sessionData.session) throw new Error("Please sign in to continue.");
+
+  const { data, error } = await supabase
+    .from("wedding_app_data")
+    .select("data")
+    .eq("id", 1)
+    .maybeSingle();
+  if (error) throw error;
+  const saved = data && data.data ? data.data : DEFAULT_DATA();
+  return {
+    g: Array.isArray(saved.g) ? saved.g : [],
+    d: Array.isArray(saved.d) ? saved.d : [],
+    v: Array.isArray(saved.v) ? saved.v : []
+  };
+}
+
+async function save() {
+  if (!adminReady) {
+    toast("Please sign in before saving.");
+    return;
+  }
+  try {
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) throw sessionError;
+    if (!sessionData.session) throw new Error("Your session has expired. Please sign in again.");
+
+    const { error } = await supabase
+      .from("wedding_app_data")
+      .upsert({ id: 1, data: S, updated_at: new Date().toISOString() }, { onConflict: "id" });
+    if (error) throw error;
+    toast("Saved successfully to Supabase");
+  } catch (error) {
+    console.error("Save failed:", error);
+    toast(error.message || "Could not save wedding data");
+  }
+}
+
+async function startAdminApp() {
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    if (!data.session) {
+      S = DEFAULT_DATA();
+      showLogin();
+      return;
+    }
+    S = await load();
+    adminReady = true;
+    showApp();
+    render();
+  } catch (error) {
+    console.error("Authentication/data load failed:", error);
+    showLogin(error.message || "Could not load the wedding dashboard.");
+  }
+}
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const email = document.getElementById("admin-email").value.trim();
+  const password = document.getElementById("admin-password").value;
+  const button = loginForm.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Signing in…";
+  loginError.textContent = "";
+  try {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    await startAdminApp();
+  } catch (error) {
+    showLogin(error.message || "Sign-in failed. Check your email and password.");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Sign in";
+  }
+});
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_OUT" || !session) {
+    S = DEFAULT_DATA();
+    showLogin();
+  }
+});
+
 const uid=()=>Math.random().toString(36).slice(2,9);
 const today=()=>new Date().toISOString().slice(0,10);
 const ms=t=>t?new Date(t).getTime():NaN;
@@ -127,7 +268,7 @@ return `<div class="bar"><small>Arrival time is when the flight/train lands. Dri
 Transport(){return `<div class="bar"><button class="b" onclick="drvPdf()">Export all drivers (PDF)</button></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card"><h3 class="hh">🚗 Drivers</h3><button class="b s" onclick="dForm()">+ Add driver</button>${S.d.length?S.d.map(d=>`<div class="row"><span><b class="dn">${e(d.name)}</b><br><small>${e(d.phone)}</small><br>${occTag(d)}</span><span><button class="b g s" onclick="dForm('${d.id}')">Edit</button> <button class="b g s" onclick="rm('d','${d.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No drivers added.</div>'}</div>
 <div class="card"><h3 class="hh">🚙 Vehicles</h3><button class="b s" onclick="vForm()">+ Add vehicle</button>${S.v.length?S.v.map(v=>`<div class="row"><span><b>${e(v.model||v.type)} — ${e(v.reg)}</b><br><small>${e(v.type)} · capacity ${e(v.cap)}</small></span><span><button class="b g s" onclick="vForm('${v.id}')">Edit</button> <button class="b g s" onclick="rm('v','${v.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No vehicles added.</div>'}</div></div>
 <h2>Driver-wise schedule</h2>${S.d.map(d=>{const t=S.g.filter(x=>x.driver==d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return `<div class="card" style="margin-bottom:10px"><div class="bar"><b class="dn">${e(d.name)}</b><small>${e(d.phone)}</small><button class="b s" onclick="drvPdf('${d.id}')">Export PDF</button></div>${t.length?sched(t):"<br><small>No trips assigned.</small>"}</div>`}).join("")||'<div class="empty">Add drivers to see schedules.</div>'}`},
-Data(){return `<div class="card"><h3>Backup and export</h3><p>Data is saved in this browser only. It will not appear on another device or after clearing site data, so copy a backup regularly.</p><div class="bar"><button class="b" onclick="bk()">Show backup (JSON)</button><button class="b g" onclick="rs()">Restore from pasted JSON</button></div><textarea id="ta" rows="10" style="width:100%" placeholder="Backup, CSV or pasted JSON appears here"></textarea></div>`}};
+Data(){return `<div class="card"><h3>Backup and export</h3><p>Data is stored centrally in Supabase and shared across signed-in devices. Use the JSON backup regularly as an extra precaution.</p><div class="bar"><button class="b" onclick="bk()">Show backup (JSON)</button><button class="b g" onclick="rs()">Restore from pasted JSON</button></div><textarea id="ta" rows="10" style="width:100%" placeholder="Backup, CSV or pasted JSON appears here"></textarea></div>`}};
 function keep(){const p=document.getElementById("qs").selectionStart;render();const i=document.getElementById("qs");i.focus();i.setSelectionRange(p,p)}
 const ta=()=>document.getElementById("ta");
 function bk(){ta().value=JSON.stringify(S);ta().select()}
@@ -239,5 +380,5 @@ dlg.addEventListener("change",ev=>{if(ev.target.id=="f_rep"){const s=document.ge
 const CATS={"Welina Hotels Bhubaneswar":["Executive","Premium"],"Marigold Hotels Bhubaneswar":["Premium","Luxury"],"Transitel Hotel Kolkata":["Premium","Club"]};
 function catOpts(h,cur){const l=[...(CATS[h]||[])];if(cur&&!l.includes(cur))l.push(cur);return[["","— select —"],...l.map(x=>[x,x])]}
 dlg.addEventListener("change",ev=>{if(ev.target.id=="f_hotel"){const c=document.getElementById("f_cat");if(c)c.innerHTML=catOpts(ev.target.value,"").map(a=>`<option value="${e(a[0])}">${e(a[1])}</option>`).join("")}});
-render();
+startAdminApp();
 </script></body></html>
