@@ -31,6 +31,7 @@ const HA={
 };
 const CATS={"Welina Hotels Bhubaneswar":["Executive","Premium"],"Marigold Hotels Bhubaneswar":["Premium","Luxury"],"Transitel Hotel Kolkata":["Premium","Club"]};
 const TABS=["Dashboard","Guests","Hotels","Arrivals","Transport","Data"];
+const DEFAULT_CHECKOUT="2026-12-07T11:00"; /* 7 Dec 2026, 11:00 AM */
 const DEFAULT_DATA=()=>({g:[],d:[],v:[]});
 let S=DEFAULT_DATA(),tab="Dashboard",q="",hf="",sf="",adminReady=false,curG=null,pvo="portrait";
 const $=id=>document.getElementById(id),dlg=$("dlg"),loginEl=$("admin-login"),loginForm=$("admin-login-form"),loginError=$("admin-login-error");
@@ -120,9 +121,43 @@ function sameTrip(a,b){return !!a.aPlace&&a.aPlace.trim().toLowerCase()===String
 function roomClash(o,others){if(!o.hotel||!o.room||["Checked out","Cancelled"].includes(o.status))return null;return others.find(x=>x.hotel===o.hotel&&(x.room||"").trim().toLowerCase()===o.room.trim().toLowerCase()&&!["Checked out","Cancelled"].includes(x.status)&&(!(o.cin&&o.cout&&x.cin&&x.cout)||(ms(o.cin)<ms(x.cout)&&ms(x.cin)<ms(o.cout))))||null}
 function driverClash(o,others){if(!o.driver||!o.rep)return null;return others.find(x=>x.driver===o.driver&&x.rep&&Math.abs(ms(x.rep)-ms(o.rep))<2*60*60*1000&&!sameTrip(o,x))||null}
 function capacityClash(o,others){if(!o.driver||!o.vehicle||!o.rep)return null;const vehicle=S.v.find(v=>v.id===o.vehicle);if(!vehicle)return null;const group=others.filter(x=>x.driver===o.driver&&x.vehicle===o.vehicle&&x.rep&&sameTrip(o,x));const used=group.reduce((n,x)=>n+(+x.pax||1),0)+(+o.pax||1);return used>+vehicle.cap?{used,cap:+vehicle.cap,vehicle,group}:null}
+
+/* ---- Auto-fill helpers: driver reports 45 min before arrival, hotel check-in 1 hour after arrival ---- */
+const toLocalInput=d=>{const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())+"T"+p(d.getHours())+":"+p(d.getMinutes())};
+function setDT(id,date){const el=$(id);if(!el)return;el.value=toLocalInput(date);const lab=$("d_"+id.slice(2));if(lab)lab.textContent=D2(el.value)}
+dlg.addEventListener("change",ev=>{
+ if(ev.target.id==="f_hotel"){const c=$("f_cat");if(c)c.innerHTML=catOpts(ev.target.value,"").map(a=>`<option value="${esc(a[0])}">${esc(a[1])}</option>`).join("")}
+ if(ev.target.id==="f_aAt"&&ev.target.value){
+  const t=new Date(ev.target.value).getTime();
+  setDT("f_rep",new Date(t-45*60000));   /* driver reports 45 min before arrival */
+  setDT("f_cin",new Date(t+60*60000));   /* hotel check-in 1 hour after arrival */
+ }
+});
+
 function gForm(id){
- curG=id||null;const old=S.g.find(x=>x.id===id)||{status:"Expected",pax:"1",vip:"No",pickup:"Yes",aMethod:"",hotel:"",cat:"",room:"",cin:"",cout:"",aAt:"",rep:"",driver:"",vehicle:""};
- const fields=[["name","Full name","text"],["phone","Phone (include country code if available)","tel"],["pax","Passengers","number"],["vip","VIP guest","select",["No","Yes"]],["hotel","Hotel","select",[["","— select hotel —"],...H.map(h=>[h,h])]],["cat","Room category (admin only)","select",catOpts(old.hotel,old.cat)],["room","Room number","text"],["cin","Check-in","datetime-local"],["cout","Check-out","datetime-local"],["status","Status","select",["Expected","Checked in","Checked out","Cancelled"]],["aMethod","Arrival method","select",["","Flight","Train","Road","Other"]],["aName","Airline / train name","text"],["aNum","Flight / train number","text"],["aPlace","Airport / station / pickup point","select",placeOpts(old.aPlace)],["aAt","Scheduled arrival time","datetime-local"],["pickup","Pickup needed?","select",["Yes","No"]],["rep","Driver reporting time","datetime-local"],["driver","Driver","select",[["","— none —"],...S.d.map(d=>[d.id,d.name+" ("+(d.phone||"no phone")+")"])]],["vehicle","Vehicle","select",[["","— none —"],...S.v.map(v=>[v.id,(v.model||v.type)+" — "+v.reg+" (capacity "+v.cap+")"])]],["notes","Notes","textarea",null,true]];
+ curG=id||null;const old=S.g.find(x=>x.id===id)||{status:"Expected",pax:"1",vip:"No",pickup:"Yes",aMethod:"",hotel:"",cat:"",room:"",cin:"",cout:DEFAULT_CHECKOUT,aAt:"",rep:"",driver:"",vehicle:""};
+ const fields=[
+  ["name","Full name","text"],
+  ["phone","Phone (include country code if available)","tel"],
+  ["status","Status","select",["Expected","Checked in","Checked out","Cancelled"]],
+  ["aMethod","Arrival method","select",["","Flight","Train","Road","Other"]],
+  ["aName","Airline / train name","text"],
+  ["aNum","Flight / train number","text"],
+  ["aPlace","Airport / station / pickup point","select",placeOpts(old.aPlace)],
+  ["aAt","Scheduled arrival time","datetime-local"],
+  ["rep","Driver reporting time (auto: arrival − 45 min)","datetime-local"],
+  ["pickup","Pickup needed?","select",["Yes","No"]],
+  ["driver","Driver","select",[["","— none —"],...S.d.map(d=>[d.id,d.name+" ("+(d.phone||"no phone")+")"])]],
+  ["vehicle","Vehicle","select",[["","— none —"],...S.v.map(v=>[v.id,(v.model||v.type)+" — "+v.reg+" (capacity "+v.cap+")"])]],
+  ["hotel","Hotel","select",[["","— select hotel —"],...H.map(h=>[h,h])]],
+  ["cat","Room category (admin only)","select",catOpts(old.hotel,old.cat)],
+  ["room","Room number","text"],
+  ["cin","Check-in (auto: arrival + 1 hr)","datetime-local"],
+  ["cout","Check-out (default 07/12/2026 11:00)","datetime-local"],
+  ["pax","Passengers","number"],
+  ["vip","VIP guest","select",["No","Yes"]],
+  ["notes","Notes","textarea",null,true]
+ ];
  form(id?"Edit guest":"Add guest",fields,old,o=>{
   if(!o.name)return alert("Guest name is required.");o.pax=String(Math.max(1,parseInt(o.pax||"1",10)||1));const others=S.g.filter(x=>x.id!==id),warnings=[];
   if(others.some(x=>x.name.toLowerCase()===o.name.toLowerCase()&&x.phone===o.phone))warnings.push("A guest with the same name and phone already exists.");
@@ -135,7 +170,6 @@ function gForm(id){
   if(id)S.g=S.g.map(x=>x.id===id?{...o,id}:x);else S.g.push({...o,id:uid()});
   dlg.close();save().then(ok=>{if(ok)render()});
  });
- dlg.addEventListener("change",function updateOptions(ev){if(ev.target.id==="f_hotel"){const c=$("f_cat");if(c)c.innerHTML=catOpts(ev.target.value,"").map(a=>`<option value="${esc(a[0])}">${esc(a[1])}</option>`).join("")}if(ev.target.id==="f_aAt"&&ev.target.value){const t=new Date(ev.target.value).getTime();const cin=$("f_cin"),rep=$("f_rep");if(cin&&!cin.value)cin.value=new Date(t+3600000).toISOString().slice(0,16);if(rep&&!rep.value)rep.value=new Date(t-2700000).toISOString().slice(0,16)}});
 }
 function del(id){const g=S.g.find(x=>x.id===id);if(confirm("Delete guest "+(g?g.name:"")+"?")){S.g=S.g.filter(x=>x.id!==id);save().then(ok=>{if(ok)render()})}}
 function rm(type,id){if(!confirm("Remove this "+(type==="d"?"driver":"vehicle")+"? Existing trips will lose this assignment."))return;S[type]=S[type].filter(x=>x.id!==id);S.g.forEach(g=>{if(g[type==="d"?"driver":"vehicle"]===id)g[type==="d"?"driver":"vehicle"]=""});save().then(ok=>{if(ok)render()})}
