@@ -1,384 +1,181 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wedding Hospitality Concierge</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FAF7F2;--card:#fff;--ink:#292929;--mut:#6b6b6b;--gold:#C5A46D;--green:#243B32;--blush:#EAD5D0;--sage:#A8B5A0;--line:#e7e0d3;--bad:#a4442f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#151c18;--card:#1f2a25;--ink:#f1ece2;--mut:#b4b0a6;--line:#33433b;--blush:#4a3a37;--bad:#e8907c}}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
-h1,h2,h3{font-family:'Playfair Display',Georgia,serif;margin:0}
-header{background:var(--green);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-header h1{font-size:22px;color:#fff}header span{color:var(--gold);font-size:13px}
-nav{display:flex;gap:4px;overflow-x:auto;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
-nav button{border:0;background:none;color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer;font:500 14px Inter;white-space:nowrap}
-nav button.on{background:var(--green);color:#fff}
-main{max-width:1150px;margin:0 auto;padding:18px 14px 60px;animation:up .35s ease}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 1px 6px #0000000d;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-2px);border-color:var(--gold)}
-.stat b{display:block;font:700 28px 'Playfair Display',serif;color:var(--green)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .stat b{color:var(--gold)}}
-.stat small{color:var(--mut)}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;align-items:center}
-input,select,textarea,button.b{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);transition:border-color .2s,box-shadow .2s}
-input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-button.b{cursor:pointer;background:var(--green);color:#fff;border:0;font-weight:500}button.b.g{background:var(--card);color:var(--ink);border:1px solid var(--line)}button.b.s{padding:5px 9px;font-size:13px}
-button.b:active{transform:scale(.97)}
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}
-table{border-collapse:collapse;width:100%;min-width:720px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
-th{position:sticky;top:0;background:var(--card);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
-.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;background:var(--blush);color:var(--ink);margin:1px}
-.tag.ok{background:var(--sage);color:#17251d}.tag.warn{background:#f3d9a8;color:#4a3410}.tag.bad{background:var(--bad);color:#fff}
-dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(560px,94vw);max-height:90vh;padding:20px}
-dialog::backdrop{background:#0008}
-.f{display:grid;grid-template-columns:1fr 1fr;gap:10px}.f label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:3px}.f .w{grid-column:1/-1}
-@media(max-width:520px){.f{grid-template-columns:1fr}}
-.row{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:8px 0;border-bottom:1px dashed var(--line)}
-.hh{background:#243B32;color:#F2C94C;font-weight:700;padding:8px 12px;border-radius:10px;border-bottom:3px solid #F2C94C}
-.sc{cursor:pointer;text-align:left;font:inherit;color:inherit}
-.pg .rsvp{border:2px solid #C5A46D;border-radius:10px;padding:10px 14px;margin-top:14px;background:#FAF7F2;color:#111;break-inside:avoid}
-.pg a{color:#1a56a8;overflow-wrap:anywhere;word-break:break-all}
-.empty{text-align:center;color:var(--mut);padding:30px}
-h2{margin:6px 0 12px}h3{margin-bottom:8px}
-.room{display:inline-block;font:700 20px 'Playfair Display',Georgia,serif;background:var(--blush);color:var(--ink);border:1px solid var(--gold);padding:2px 12px;border-radius:8px}
-#pv{display:none}#pv.open{display:block;position:fixed;inset:0;background:#e9e6df;color:#111;overflow:auto;z-index:50;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px))}
-#pv .tb{margin-bottom:12px;display:flex;gap:8px}
-.pg{margin:0 auto;background:#fff;padding:10mm;box-shadow:0 2px 14px #0004;overflow:hidden}.pg.land{width:297mm}.pg.port{width:210mm}.pg h1{font-size:22px;color:#243B32;border-bottom:3px solid #C5A46D;padding-bottom:6px;margin:0 0 4px}.pg h2{font-size:16px;margin:12px 0 6px;color:#111}
-.pg table{min-width:0;width:100%;table-layout:fixed;border-collapse:collapse;font-size:11px}
-.pg table.wide{min-width:1040px}
-.pg th,.pg td{border:1px solid #cfc6b4;padding:5px 6px;overflow-wrap:break-word;word-break:normal;color:#111}
-.pg th{position:static;background:#243B32;color:#fff;font-size:10px}
-.pg tr{break-inside:avoid;page-break-inside:avoid}.pg thead{display:table-header-group}
-.pg .pr th{width:32%;background:#EAD5D0;color:#111;font-size:13px;text-transform:none}.pg .pr td{font-size:15px}
-.rm{font-weight:700;font-size:14px}
-.pg *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.hd{background:#243B32;color:#FAF7F2;text-align:center;padding:16px 10px 14px;border:2px solid #C5A46D;outline:1px solid #C5A46D;outline-offset:-7px;border-radius:6px;margin-bottom:14px}
-.hd .orn{color:#C5A46D;letter-spacing:.5em;font-size:14px}.hd .nm{font:700 30px 'Playfair Display',Georgia,serif;color:#E7D3A6;margin:4px 0}.hd .sb{font-size:12px;letter-spacing:.2em;text-transform:uppercase}
-.dv{border:2px solid #C5A46D;background:#FFF8E8;border-radius:10px;padding:12px 16px;margin:10px 0}.dv h2{margin:0 0 6px;color:#243B32}.dv .big{display:inline-block;font:700 15px Inter,sans-serif;color:#243B32;background:#F2C94C;padding:2px 10px;border-radius:6px}.dv .ph{display:inline-block;font-size:14px;font-weight:700;margin:0 0 8px 8px;color:#111;border-bottom:2px solid #C5A46D}
-.ms{border-left:4px solid #C5A46D;background:#FAF7F2;padding:10px 14px;margin-top:14px;font-style:italic;font-size:14px;color:#111}.pg .ft{color:#555;font-size:10px}
-@media print{html,body{background:#fff}.pg{overflow:visible;width:auto!important;padding:0;box-shadow:none;zoom:1!important}.pg table.wide{min-width:0}body>*:not(#pv){display:none!important}#pv.open{position:static;overflow:visible;padding:0}#pv .tb{display:none}}
-dialog{width:min(660px,94vw);overflow-x:hidden}
-dialog[open]{animation:pop .35s cubic-bezier(.2,.9,.3,1.15)}dialog[open]::backdrop{animation:fade .3s}
-@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}@keyframes fade{from{opacity:0}to{opacity:1}}
-.f label{min-width:0}.f input,.f select,.f textarea{width:100%;min-width:0}
-.sec{border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:14px;padding:12px 14px 14px;margin:12px 0;background:color-mix(in srgb,var(--card) 94%,var(--gold));animation:up .5s both;animation-delay:calc(var(--i)*.09s)}
-.sec:nth-of-type(2){border-left-color:var(--sage)}.sec:nth-of-type(3){border-left-color:#7aa6c9}.sec:nth-of-type(4){border-left-color:#F2C94C}
-.sec h3{font-size:17px;margin:0 0 10px}
-.stick{position:sticky;bottom:-20px;background:var(--card);padding:12px 0 4px;margin-top:10px}
-button.b{transition:transform .15s,box-shadow .2s}button.b:hover{transform:translateY(-2px);box-shadow:0 5px 14px #0003}
-nav button{transition:background .25s,transform .15s}nav button:hover{transform:translateY(-1px)}
-tbody tr{animation:up .4s both}.grid>*{animation:up .5s both}.grid>:nth-child(2){animation-delay:.07s}.grid>:nth-child(3){animation-delay:.14s}.grid>:nth-child(4){animation-delay:.21s}.grid>:nth-child(5){animation-delay:.28s}
-.row{animation:up .35s both}.room{animation:pop .45s both}
-#ts{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#243B32;color:#F2C94C;padding:10px 20px;border-radius:999px;font-weight:600;z-index:99;box-shadow:0 6px 20px #0005;animation:toast 2s both}
-@keyframes toast{0%{opacity:0;transform:translate(-50%,20px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,10px)}}
-dialog.red{border:3px solid #c0392b;background:#fff0ee;color:#7a1f14;width:min(440px,92vw);animation:shake .45s}dialog.red h2{color:#c0392b;font-size:20px;margin-bottom:8px}dialog.red p{font-size:15px}dialog.red::backdrop{background:#7a1f1466}
-@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-.dh{font-size:17px;margin:14px 0 4px;padding-bottom:4px;border-bottom:2px solid var(--gold)}.tm{display:inline-block;font-weight:600;background:var(--blush);color:var(--ink);padding:2px 12px;border-radius:999px;margin:8px 0 2px;font-size:13px}.gl{margin:2px 0 6px;padding-left:22px}.gl li{margin:4px 0}
-.dn{font:800 19px Inter,sans-serif;color:var(--green)}@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .dn{color:var(--gold)}}
-.pg .dname{font:800 24px Inter,sans-serif;color:#243B32}.pg .np{break-before:page;page-break-before:always}.pg h2.pdh{background:#243B32;color:#fff;padding:5px 10px;border-radius:6px;font-size:15px}.pg .tm2{font-weight:700;background:#F2C94C;color:#111;display:inline-block;padding:3px 12px;border-radius:999px;margin:10px 0 4px;font-size:13px}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-#admin-login[style*="display:flex"]{display:flex!important}
-</style><style id="pg"></style></head><body>
-<header><h1>Wedding Hospitality Concierge</h1><span>Guests · Hotels · Arrivals · Transport</span><button id="admin-signout" class="b g" style="margin-left:auto" hidden onclick="signOutAdmin()">Sign out</button></header>
-
-<div id="admin-login" style="display:flex;position:fixed;inset:0;z-index:99999;background:#151c18;color:#fff;align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
-  <form id="admin-login-form" style="width:100%;max-width:380px;padding:28px;border:1px solid #536456;border-radius:16px;background:#1f2922;box-sizing:border-box">
-    <h2>Wedding Admin</h2>
-    <p>Sign in to manage wedding guests and transport.</p>
-
-    <label for="admin-email">Administrator email</label>
-    <input id="admin-email" type="email" autocomplete="username" required style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0 16px">
-
-    <label for="admin-password">Password</label>
-    <input id="admin-password" type="password" autocomplete="current-password" required style="display:block;width:100%;box-sizing:border-box;padding:12px;margin:8px 0 16px">
-
-    <button type="submit" style="width:100%;padding:12px;cursor:pointer">Sign in</button>
-
-    <p id="admin-login-error" role="alert" style="color:#ffaaaa"></p>
-  </form>
-</div>
-
-<nav id="nav" hidden></nav>
-<main id="m" hidden></main>
-<dialog id="dlg"></dialog>
-<div id="pv"></div>
-
+:root{--bg:#faf7f2;--card:#fff;--ink:#292929;--mut:#6b6b6b;--gold:#c5a46d;--green:#243b32;--blush:#ead5d0;--sage:#a8b5a0;--line:#e7e0d3;--bad:#a4442f;--yellow:#f2c94c}
+*{box-sizing:border-box}html{scroll-padding-top:70px}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0}header{background:var(--green);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}header h1{font-size:22px;color:#fff}header span{color:var(--gold);font-size:13px}header .spacer{flex:1}nav{display:flex;gap:4px;overflow-x:auto;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}nav button{border:0;background:none;color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer;font:500 14px Inter;white-space:nowrap}nav button.on{background:var(--green);color:#fff}main{max-width:1250px;margin:0 auto;padding:18px 14px 60px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 1px 6px #0000000d}.stat b{display:block;font:700 28px "Playfair Display",serif;color:var(--green)}.stat small{color:var(--mut)}.bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;align-items:center}input,select,textarea,button.b{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}button{cursor:pointer}button.b{background:var(--green);color:#fff;border:0;font-weight:600}button.b.g{background:var(--card);color:var(--ink);border:1px solid var(--line)}button.b.s{padding:5px 9px;font-size:12px}button:disabled{opacity:.55;cursor:wait}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card)}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}th{position:sticky;top:0;background:var(--card);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;background:var(--blush);color:var(--ink);margin:1px}.tag.ok{background:#d9efdf;color:#17663a}.tag.warn{background:#f3d9a8;color:#4a3410}.tag.bad{background:#a4442f;color:#fff}.tag.expected{background:#fff2cc;color:#805b00}.tag.in{background:#ddf3e4;color:#17663a}.tag.out{background:#fce3e3;color:#a12626}dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(760px,94vw);max-height:92vh;padding:20px;overflow:auto}dialog::backdrop{background:#0008}.f{display:grid;grid-template-columns:1fr 1fr;gap:10px}.f label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:3px;min-width:0}.f label.w{grid-column:1/-1}.f input,.f select,.f textarea{width:100%;min-width:0}.sec{border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:12px;margin:12px 0;background:#fffaf0}.sec h3{font-size:17px;margin-bottom:10px}.row{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:9px 0;border-bottom:1px dashed var(--line)}.empty{text-align:center;color:var(--mut);padding:28px}.room{display:inline-block;font:700 19px "Playfair Display",serif;background:var(--blush);color:var(--ink);border:1px solid var(--gold);padding:1px 10px;border-radius:8px}.hh{background:#243b32;color:#f2c94c;font-weight:700;padding:8px 12px;border-radius:10px;border-bottom:3px solid #f2c94c}.dn{font:800 18px Inter,sans-serif;color:var(--green)}#admin-login{display:flex;position:fixed;inset:0;z-index:99999;background:#151c18;color:#fff;align-items:center;justify-content:center;padding:20px}#admin-login form{width:100%;max-width:390px;padding:28px;border:1px solid #536456;border-radius:16px;background:#1f2922}#admin-login label{display:block;font-size:13px}#admin-login input{display:block;width:100%;padding:12px;margin:7px 0 16px;color:#222;background:#fff}#admin-login button{width:100%;padding:12px;background:#c5a46d;color:#17251d;border:0;border-radius:10px;font-weight:700}#admin-login-error{color:#ffaaaa;white-space:pre-wrap}#ts{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#243b32;color:#f2c94c;padding:10px 20px;border-radius:999px;font-weight:600;z-index:999;box-shadow:0 6px 20px #0005;max-width:90vw;text-align:center}#pv{display:none}#pv.open{display:block;position:fixed;inset:0;background:#e9e6df;color:#111;overflow:auto;z-index:50;padding:16px}#pv .tb{margin-bottom:12px;display:flex;gap:8px}#pv .pg{margin:0 auto;background:#fff;padding:10mm;box-shadow:0 2px 14px #0004;overflow:visible;color:#111}#pv .pg.land{width:297mm}#pv .pg.port{width:210mm}#pv .pg h1{font-size:22px;color:#243b32;border-bottom:3px solid #c5a46d;padding-bottom:6px;margin:0 0 8px}#pv .pg h2{font-size:16px;margin:12px 0 6px;color:#111}#pv .pg table{min-width:0;width:100%;table-layout:fixed;border-collapse:collapse;font-size:11px}#pv .pg table.wide{min-width:0}#pv .pg th,#pv .pg td{border:1px solid #cfc6b4;padding:5px 6px;overflow-wrap:anywhere;color:#111}#pv .pg th{position:static;background:#243b32;color:#fff;font-size:10px}#pv .pg .pr th{width:32%;background:#ead5d0;color:#111;font-size:12px;text-transform:none}#pv .pg .pr td{font-size:13px}#pv .hd{background:#243b32;color:#faf7f2;text-align:center;padding:16px 10px 14px;border:2px solid #c5a46d;border-radius:6px;margin-bottom:14px}#pv .hd .orn{color:#c5a46d;letter-spacing:.5em;font-size:14px}#pv .hd .nm{font:700 30px "Playfair Display",Georgia,serif;color:#e7d3a6;margin:4px 0}#pv .hd .sb{font-size:12px;letter-spacing:.2em;text-transform:uppercase}#pv .dv{border:2px solid #c5a46d;background:#fff8e8;border-radius:10px;padding:12px 16px;margin:10px 0}#pv .dv h2{margin:0 0 6px;color:#243b32}#pv .dv .big{display:inline-block;font-weight:700;color:#243b32;background:#f2c94c;padding:2px 10px;border-radius:6px}#pv .dv .ph{display:inline-block;font-size:14px;font-weight:700;margin:0 0 8px 8px;color:#111;border-bottom:2px solid #c5a46d}#pv .ms{border-left:4px solid #c5a46d;background:#faf7f2;padding:10px 14px;margin-top:14px;font-style:italic;font-size:13px;color:#111}#pv .ft{color:#555;font-size:10px}#pv .pdh{background:#243b32;color:#fff;padding:5px 10px;border-radius:6px;font-size:14px}#pv .tm2{font-weight:700;background:#f2c94c;color:#111;display:inline-block;padding:3px 12px;border-radius:999px;margin:10px 0 4px;font-size:12px}#pv a{color:#164e9c;overflow-wrap:anywhere}@media print{html,body{background:#fff}body>*:not(#pv){display:none!important}#pv.open{position:static;overflow:visible;padding:0}#pv .tb{display:none}#pv .pg{overflow:visible;width:auto!important;padding:0;box-shadow:none;zoom:1!important}#pv .pg table.wide{min-width:0}}@media(max-width:560px){.f{grid-template-columns:1fr}.f label.w{grid-column:auto}header h1{font-size:19px}main{padding:12px 9px 50px}nav{padding:6px}nav button{padding:8px 10px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>Wedding Hospitality Concierge</h1><span>Guests · Hotels · Arrivals · Transport</span><div class="spacer"></div><button id="admin-signout" class="b g" hidden onclick="signOutAdmin()">Sign out</button></header>
+<div id="admin-login"><form id="admin-login-form"><h2>Wedding Admin</h2><p>Sign in to manage wedding guests, hotels and transport.</p><label for="admin-email">Administrator email</label><input id="admin-email" type="email" autocomplete="username" required><label for="admin-password">Password</label><input id="admin-password" type="password" autocomplete="current-password" required><button type="submit">Sign in</button><p id="admin-login-error" role="alert"></p></form></div>
+<nav id="nav" hidden></nav><main id="m" hidden></main><dialog id="dlg"></dialog><div id="pv"></div><div id="toast-root"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const H=["Welina Hotels Bhubaneswar","Marigold Hotels Bhubaneswar","Transitel Hotel Kolkata"];
-const C={"Welina Hotels Bhubaneswar":"Bhubaneswar, Odisha","Marigold Hotels Bhubaneswar":"Bhubaneswar, Odisha","Transitel Hotel Kolkata":"Kolkata, West Bengal"};
-const TABS=["Dashboard","Guests","Hotels","Arrivals","Transport","Data"];
-let tab="Dashboard",q="",hf="",sf="";
-const e=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const D2=t=>{if(!t)return"";const m=String(t).match(/^(\d{4})-(\d\d)-(\d\d)(?:T(\d\d:\d\d))?/);return m?m[3]+"/"+m[2]+"/"+m[1]+(m[4]?" "+m[4]:""):t};
-const D2I=s=>{if(!s)return"";const m=s.match(/^(\d{1,2})[\/\-. ](\d{1,2})[\/\-. ](\d{4})\s+(\d{1,2}):(\d\d)$/);if(!m)return null;const z=n=>String(n).padStart(2,"0"),d=+m[1],mo=+m[2],y=+m[3],h=+m[4],mi=+m[5],t=new Date(y,mo-1,d);if(t.getMonth()!=mo-1||t.getDate()!=d||h>23||mi>59)return null;return y+"-"+z(mo)+"-"+z(d)+"T"+z(h)+":"+m[5]};
-const NOW=()=>{const d=new Date(),z=n=>String(n).padStart(2,"0");return z(d.getDate())+"/"+z(d.getMonth()+1)+"/"+d.getFullYear()+" "+z(d.getHours())+":"+z(d.getMinutes())};
-const f=t=>t?e(D2(t)):"—";
-const supabase = window.supabase.createClient(
+"use strict";
+/* IMPORTANT: use supabaseClient, not "supabase". The Supabase CDN already exposes a global named supabase. */
+const supabaseClient = window.supabase.createClient(
   "https://gulificjlukbghcugnsk.supabase.co",
   "sb_publishable_UJk6_1GAyUlAY_ZR2oQ2ZA_HujBlwAN"
 );
-
-let S = { g: [], d: [], v: [] };
-let adminReady = false;
-const DEFAULT_DATA = () => ({ g: [], d: [], v: [] });
-const loginEl = document.getElementById("admin-login");
-const loginForm = document.getElementById("admin-login-form");
-const loginError = document.getElementById("admin-login-error");
-
-function showLogin(message = "") {
-  adminReady = false;
-  loginEl.style.display = "flex";
-  document.getElementById("nav").hidden = true;
-  document.getElementById("m").hidden = true;
-  document.getElementById("admin-signout").hidden = true;
-  loginError.textContent = message;
-}
-function showApp() {
-  loginEl.style.display = "none";
-  document.getElementById("nav").hidden = false;
-  document.getElementById("m").hidden = false;
-  document.getElementById("admin-signout").hidden = false;
-}
-async function signOutAdmin() {
-  const { error } = await supabase.auth.signOut();
-  if (error) { toast(error.message || "Could not sign out"); return; }
-  adminReady = false;
-  S = DEFAULT_DATA();
-  document.getElementById("admin-signout").hidden = true;
-  showLogin();
-}
-
-async function load() {
-  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  if (sessionError) throw sessionError;
-  if (!sessionData.session) throw new Error("Please sign in to continue.");
-
-  const { data, error } = await supabase
-    .from("wedding_app_data")
-    .select("data")
-    .eq("id", 1)
-    .maybeSingle();
-  if (error) throw error;
-  const saved = data && data.data ? data.data : DEFAULT_DATA();
-  return {
-    g: Array.isArray(saved.g) ? saved.g : [],
-    d: Array.isArray(saved.d) ? saved.d : [],
-    v: Array.isArray(saved.v) ? saved.v : []
-  };
-}
-
-async function save() {
-  if (!adminReady) {
-    toast("Please sign in before saving.");
-    return;
-  }
-  try {
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) throw sessionError;
-    if (!sessionData.session) throw new Error("Your session has expired. Please sign in again.");
-
-    const { error } = await supabase
-      .from("wedding_app_data")
-      .upsert({ id: 1, data: S, updated_at: new Date().toISOString() }, { onConflict: "id" });
-    if (error) throw error;
-    toast("Saved successfully to Supabase");
-  } catch (error) {
-    console.error("Save failed:", error);
-    toast(error.message || "Could not save wedding data");
-  }
-}
-
-async function startAdminApp() {
-  try {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) throw error;
-    if (!data.session) {
-      S = DEFAULT_DATA();
-      showLogin();
-      return;
-    }
-    S = await load();
-    adminReady = true;
-    showApp();
-    render();
-  } catch (error) {
-    console.error("Authentication/data load failed:", error);
-    showLogin(error.message || "Could not load the wedding dashboard.");
-  }
-}
-
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const email = document.getElementById("admin-email").value.trim();
-  const password = document.getElementById("admin-password").value;
-  const button = loginForm.querySelector('button[type="submit"]');
-  button.disabled = true;
-  button.textContent = "Signing in…";
-  loginError.textContent = "";
-  try {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    await startAdminApp();
-  } catch (error) {
-    showLogin(error.message || "Sign-in failed. Check your email and password.");
-  } finally {
-    button.disabled = false;
-    button.textContent = "Sign in";
-  }
-});
-
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_OUT" || !session) {
-    S = DEFAULT_DATA();
-    showLogin();
-  }
-});
-
-const uid=()=>Math.random().toString(36).slice(2,9);
-const today=()=>new Date().toISOString().slice(0,10);
-const ms=t=>t?new Date(t).getTime():NaN;
-const dn=id=>(S.d.find(x=>x.id==id)||{}).name||"";
-const vn=id=>{const v=S.v.find(x=>x.id==id);return v?(v.model||v.type)+" — "+v.reg:""};
-function nav(){document.getElementById("nav").innerHTML=TABS.map(t=>`<button class="${t==tab?"on":""}" onclick="tab='${t}';render()">${t}</button>`).join("")}
-function render(){nav();const m=document.getElementById("m");m.innerHTML=V[tab]();m.style.animation="none";m.offsetHeight;m.style.animation=""}
-function count(el){const n=+el.dataset.n;let i=0;const s=()=>{i++;el.textContent=Math.round(n*Math.min(1,i/18));if(i<18)requestAnimationFrame(s)};if(matchMedia("(prefers-reduced-motion:reduce)").matches)el.textContent=n;else s()}
-function stat(l,n){return `<div class="card stat"><b data-n="${n}">0</b><small>${l}</small></div>`}
-const missing=g=>g.aMethod&&(!g.aAt||!g.aPlace||(["Flight","Train"].includes(g.aMethod)&&!g.aNum));
-const needsPick=g=>g.pickup!="No"&&g.aMethod&&(!g.driver||!g.vehicle);
-const V={
-Dashboard(){const g=S.g,t=today();
-const st=[["Arriving today",g.filter(x=>(x.aAt||"").startsWith(t)).length],["Checking out today",g.filter(x=>(x.cout||"").startsWith(t)).length],["By flight",g.filter(x=>x.aMethod=="Flight").length],["By train",g.filter(x=>x.aMethod=="Train").length],["Pickups needing driver/vehicle",g.filter(needsPick).length],["Incomplete records",g.filter(x=>missing(x)||!x.hotel||!x.room).length]];
-const up=g.filter(x=>x.aAt).sort((a,b)=>ms(a.aAt)-ms(b.aAt)).slice(0,8);
-setTimeout(()=>document.querySelectorAll("[data-n]").forEach(count),0);
-return `<div class="bar"><button class="b" onclick="gForm()">+ Add guest</button><button class="b g" onclick="tab='Transport';render()">Drivers &amp; vehicles</button></div>
-<div class="grid">${[["Total guests","","#C5A46D"],["Expected","Expected","#F2C94C"],["Checked in","Checked in","#2e8b57"],["Checked out","Checked out","#c0392b"]].map(s=>`<button class="card stat sc" style="border-top:4px solid ${s[2]}" onclick="goSt('${s[1]}')"><b data-n="${s[1]?g.filter(x=>x.status==s[1]).length:g.length}">0</b><small>${s[0]}</small></button>`).join("")}</div>
-<div class="grid">${st.map(s=>stat(s[0],s[1])).join("")}</div>
-<h2>Guests per hotel</h2><div class="grid">${H.map(h=>`<div class="card"><b>${e(h)}</b><br><small>${g.filter(x=>x.hotel==h).length} guests</small></div>`).join("")}</div>
-<h2>Upcoming arrivals</h2><div class="card">${up.length?up.map(x=>`<div class="row"><span><b>${e(x.name)}</b> · ${e(x.aMethod)} ${e(x.aName)} ${e(x.aNum)}</span><span>${f(x.aAt)}</span></div>`).join(""):'<div class="empty">No arrivals recorded yet. Add a guest with arrival details.</div>'}</div>`},
-Guests(){const l=S.g.filter(x=>(!hf||x.hotel==hf)&&(!sf||x.status==sf)&&(!q||[x.name,x.phone,x.hotel,x.room,x.aNum].join(" ").toLowerCase().includes(q.toLowerCase())));
-return `<div class="bar"><input id="qs" placeholder="Search name, phone, room, flight/train" value="${e(q)}" oninput="q=this.value;keep()"><select aria-label="Status filter" onchange="sf=this.value;render()"><option value="">All statuses</option>${["Expected","Checked in","Checked out","Cancelled"].map(s=>`<option ${s==sf?"selected":""}>${s}</option>`).join("")}</select><select onchange="hf=this.value;render()"><option value="">All hotels</option>${H.map(h=>`<option ${h==hf?"selected":""}>${e(h)}</option>`).join("")}</select><button class="b" onclick="gForm()">+ Add guest</button><button class="b g" onclick="adminPdf()">Export all (PDF)</button></div>
-<div class="tw"><table><thead><tr><th>Guest</th><th>Hotel</th><th>Room</th><th>Stay</th><th>Status</th><th></th></tr></thead><tbody>${l.length?l.map(x=>`<tr><td><b>${e(x.name)}</b>${x.vip=="Yes"?' <span class="tag warn">VIP</span>':""}<br><small>${e(x.phone)} · ${e(x.pax||1)} pax</small></td><td>${e(x.hotel)||'<span class="tag bad">No hotel</span>'}</td><td><span class="room">${x.room?e(x.room):'<span class="tag warn">Room Not Assigned</span>'}</span><br><small>${e(x.cat)||"Category Not Set"}</small></td><td><small>In ${f(x.cin)}<br>Out ${f(x.cout)}</small></td><td>${stSel(x)}</td><td><button class="b s" onclick="gForm('${x.id}')">Edit details</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button><br><button class="b g s" onclick="del('${x.id}')">Delete</button></td></tr>`).join(""):'<tr><td colspan="6" class="empty">No guests yet. Use “Add guest” to start.</td></tr>'}</tbody></table></div>`},
-Hotels(){return `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">${H.map(h=>{const g=S.g.filter(x=>x.hotel==h);return `<div class="card"><h3>${e(h)}</h3><small>${C[h]}</small><p><b>${g.length}</b> guests</p><div class="bar"><span class="tag" style="background:#FFF2CC;color:#805B00">Expected ${g.filter(x=>x.status=="Expected").length}</span><span class="tag" style="background:#DDF3E4;color:#17663A">Checked in ${g.filter(x=>x.status=="Checked in").length}</span><span class="tag" style="background:#FCE3E3;color:#A12626">Checked out ${g.filter(x=>x.status=="Checked out").length}</span></div><small>${e(HA[h].a)} ${HA[h].ok?"":'<span class="tag warn">Address needs verification</span>'}</small><p><button class="b s" onclick="hf='${h}';sf='';tab='Guests';render()">Open guest list</button></p>${g.length?g.map(x=>`<div class="row"><b>${e(x.name)}</b>${x.room?`<span class="room">${e(x.room)}</span>`:'<span class="tag warn">Room Not Assigned</span>'}<small style="flex-basis:100%">${e(x.cat)||"Category Not Set"}</small>${stSel(x)}</div>`).join(""):'<div class="empty">No guests assigned.</div>'}</div>`}).join("")}</div>`},
-Arrivals(){const l=S.g.filter(x=>x.aMethod).sort((a,b)=>ms(a.aAt)-ms(b.aAt));
-return `<div class="bar"><small>Arrival time is when the flight/train lands. Driver reporting time is when the driver must be at the pickup point.</small></div><div class="tw"><table><thead><tr><th>Guest</th><th>Arrival</th><th>Reporting</th><th>Pickup</th><th>Flags</th></tr></thead><tbody>${l.length?l.map(x=>`<tr><td><b>${e(x.name)}</b><br><small>${e(x.pax||1)} pax → ${e(x.hotel)}</small></td><td>${f(x.aAt)}<br><small>${e(x.aMethod)} ${e(x.aName)} ${e(x.aNum)} · ${e(x.aPlace)}</small></td><td>${f(x.rep)}</td><td>${e(dn(x.driver))||"—"}<br><small>${e(vn(x.vehicle))}</small></td><td>${!x.driver?'<span class="tag bad">No driver</span>':""}${!x.vehicle?'<span class="tag bad">No vehicle</span>':""}${missing(x)?'<span class="tag warn">Missing info</span>':""}${x.driver&&x.vehicle?'<span class="tag ok">Assigned</span>':""}<br><button class="b g s" onclick="gForm('${x.id}')">Edit</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button></td></tr>`).join(""):'<tr><td colspan="5" class="empty">No arrivals yet.</td></tr>'}</tbody></table></div>`},
-Transport(){return `<div class="bar"><button class="b" onclick="drvPdf()">Export all drivers (PDF)</button></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card"><h3 class="hh">🚗 Drivers</h3><button class="b s" onclick="dForm()">+ Add driver</button>${S.d.length?S.d.map(d=>`<div class="row"><span><b class="dn">${e(d.name)}</b><br><small>${e(d.phone)}</small><br>${occTag(d)}</span><span><button class="b g s" onclick="dForm('${d.id}')">Edit</button> <button class="b g s" onclick="rm('d','${d.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No drivers added.</div>'}</div>
-<div class="card"><h3 class="hh">🚙 Vehicles</h3><button class="b s" onclick="vForm()">+ Add vehicle</button>${S.v.length?S.v.map(v=>`<div class="row"><span><b>${e(v.model||v.type)} — ${e(v.reg)}</b><br><small>${e(v.type)} · capacity ${e(v.cap)}</small></span><span><button class="b g s" onclick="vForm('${v.id}')">Edit</button> <button class="b g s" onclick="rm('v','${v.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No vehicles added.</div>'}</div></div>
-<h2>Driver-wise schedule</h2>${S.d.map(d=>{const t=S.g.filter(x=>x.driver==d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return `<div class="card" style="margin-bottom:10px"><div class="bar"><b class="dn">${e(d.name)}</b><small>${e(d.phone)}</small><button class="b s" onclick="drvPdf('${d.id}')">Export PDF</button></div>${t.length?sched(t):"<br><small>No trips assigned.</small>"}</div>`}).join("")||'<div class="empty">Add drivers to see schedules.</div>'}`},
-Data(){return `<div class="card"><h3>Backup and export</h3><p>Data is stored centrally in Supabase and shared across signed-in devices. Use the JSON backup regularly as an extra precaution.</p><div class="bar"><button class="b" onclick="bk()">Show backup (JSON)</button><button class="b g" onclick="rs()">Restore from pasted JSON</button></div><textarea id="ta" rows="10" style="width:100%" placeholder="Backup, CSV or pasted JSON appears here"></textarea></div>`}};
-function keep(){const p=document.getElementById("qs").selectionStart;render();const i=document.getElementById("qs");i.focus();i.setSelectionRange(p,p)}
-const ta=()=>document.getElementById("ta");
-function bk(){ta().value=JSON.stringify(S);ta().select()}
-function csv(){const k=["name","phone","hotel","cat","room","cin","cout","status","aMethod","aNum","aPlace","aAt","rep"];ta().value=[k.join(",")].concat(S.g.map(g=>k.map(c=>'"'+String(D2(g[c])||"").replace(/"/g,'""')+'"').join(","))).join("\n");ta().select()}
-function rs(){try{const r=JSON.parse(ta().value);if(!r.g||!r.d||!r.v)throw 0;if(confirm("Replace all current data?")){S=r;save();render()}}catch(x){alert("That is not a valid backup.")}}
-function form(title,fl,v,cb){const d=document.getElementById("dlg");
-d.innerHTML=`<h2>${e(title)}</h2><div class="f">${fl.map(([k,l,t,o,w])=>`<label class="${w?"w":""}">${l}${t=="s"?`<select id="f_${k}">${o.map(x=>{const a=Array.isArray(x)?x:[x,x];return `<option value="${e(a[0])}" ${String(v[k]||"")==a[0]?"selected":""}>${e(a[1])}</option>`}).join("")}</select>`:t=="a"?`<textarea id="f_${k}" rows="2">${e(v[k])}</textarea>`:`<input id="f_${k}" type="${t}" value="${e(v[k])}" ${t=="datetime-local"?`oninput="document.getElementById('d_${k}').textContent=D2(this.value)"`:""}>${t=="datetime-local"?`<small id="d_${k}">${e(D2(v[k]))}</small>`:""}`}</label>`).join("")}</div><div class="bar" style="margin-top:14px"><button class="b" id="sv">Save</button><button class="b g" onclick="dlg.close()">Cancel</button></div>`;
-d.showModal();document.getElementById("sv").onclick=()=>{const o={...v};let bad="";fl.forEach(([k,l,t])=>{let x=document.getElementById("f_"+k).value.trim();o[k]=x});if(bad)return alert(bad+": please use dd/mm/yyyy hh:mm, for example 05/12/2026 14:30");cb(o)}}
-function gForm(id){curG=id;const v=S.g.find(x=>x.id==id)||{status:"Expected",pax:1,vip:"No",pickup:"Yes",cout:"2026-12-07T11:00"};
-form(id?"Edit guest":"Add guest",[["name","Full name","text"],["phone","Phone (with country code)","tel"],["hotel","Hotel","s",["",...H]],["cat","Room category","s",catOpts(v.hotel,v.cat)],["room","Room number","text"],["cin","Check-in","datetime-local"],["cout","Check-out","datetime-local"],["pax","Passengers","number"],["vip","VIP","s",["No","Yes"]],["status","Status","s",["Expected","Checked in","Checked out","Cancelled"]],["pickup","Pickup needed","s",["Yes","No"]],["aMethod","Arrival method","s",["","Flight","Train","Road","Other"]],["aName","Airline / train name","text"],["aNum","Flight/train number","text"],["aPlace","Airport / station","s",placeOpts(v.aMethod,v.aPlace)],["aAt","Scheduled arrival","datetime-local"],["rep","Driver reporting time","datetime-local"],["driver","Driver","s",drvOpts(v.rep,v.id)],["vehicle","Vehicle","s",[["","— none —"],...S.v.map(x=>[x.id,(x.model||x.type)+" — "+x.reg+" (cap "+x.cap+")"])]],["notes","Notes","a",null,1]],v,o=>{
-if(!o.name)return alert("Name is required.");
-const oth=S.g.filter(x=>x.id!=o.id);const w=[];
-if(oth.some(x=>x.name.toLowerCase()==o.name.toLowerCase()&&x.phone==o.phone))w.push("A guest with the same name and phone already exists.");
-if(o.room&&o.hotel&&o.cin&&o.cout){if(ms(o.cout)<=ms(o.cin))w.push("Check-out is not after check-in.");
-if(oth.some(x=>x.hotel==o.hotel&&x.room==o.room&&x.status!="Checked out"&&x.status!="Cancelled"&&x.cin&&x.cout&&ms(o.cin)<ms(x.cout)&&ms(x.cin)<ms(o.cout)))w.push("Room "+o.room+" is already allocated to another guest in these dates.")}
-const rc=roomClash(o,oth);if(rc){redPop("Room already allocated","Room <b>"+e(o.room)+"</b> of <b>"+e(o.hotel)+"</b> is already allocated to <b>"+e(rc.name)+"</b> ("+(rc.cin&&rc.cout?D2(rc.cin)+" to "+D2(rc.cout):"stay dates not entered")+"). Please choose a different room number.");return}
-const dc=drvClash(o,oth);if(dc){redPop("Driver already allocated",drvMsg(dc,o));return}
-const cc=capClash(o,oth);if(cc){redPop("Vehicle capacity full",capMsg(cc));return}
-const veh=S.v.find(x=>x.id==o.vehicle);if(veh&&+o.pax>+veh.cap)w.push("Passengers ("+o.pax+") exceed vehicle capacity ("+veh.cap+").");
-const bz=k=>o[k]&&o.rep&&oth.some(x=>x[k]==o[k]&&x.rep&&Math.abs(ms(x.rep)-ms(o.rep))<72e5&&!same(o,x));
-if(bz("driver"))w.push("This driver has another trip within 2 hours of this reporting time.");
-if(bz("vehicle"))w.push("This vehicle has another trip within 2 hours of this reporting time.");
-if(w.length&&!confirm("Warnings:\n• "+w.join("\n• ")+"\n\nSave anyway?"))return;
-if(id)S.g=S.g.map(x=>x.id==id?o:x);else{o.id=uid();S.g.push(o)}save();dlg.close();render()})}
-function ci(id){const g=S.g.find(x=>x.id==id);const n=new Date().toISOString().slice(0,16);if(g.status=="Checked in"){g.status="Checked out";g.coutAct=n}else{g.status="Checked in";g.cinAct=n}save();render()}
-function del(id){if(confirm("Delete this guest?")){S.g=S.g.filter(x=>x.id!=id);save();render()}}
-function rm(k,id){if(confirm("Remove? Trips using it will lose the assignment.")){S[k]=S[k].filter(x=>x.id!=id);S.g.forEach(g=>{if(g[k=="d"?"driver":"vehicle"]==id)g[k=="d"?"driver":"vehicle"]=""});save();render()}}
-function dForm(id){const v=S.d.find(x=>x.id==id)||{};form(id?"Edit driver":"Add driver",[["name","Full name","text"],["phone","Phone","tel"],["notes","Notes","a",null,1]],v,o=>{if(!o.name)return alert("Name is required.");if(id)S.d=S.d.map(x=>x.id==id?o:x);else{o.id=uid();S.d.push(o)}save();dlg.close();render()})}
-function vForm(id){const v=S.v.find(x=>x.id==id)||{type:"Sedan"};form(id?"Edit vehicle":"Add vehicle",[["reg","Registration number","text"],["model","Make / model","text"],["type","Category","s",["Sedan","SUV","MUV","Tempo Traveller","Bus","Custom"]],["cap","Passenger capacity","number"]],v,o=>{if(!o.reg||!(+o.cap>0))return alert("Registration and capacity are required.");if(S.v.some(x=>x.id!=o.id&&x.reg.toLowerCase()==o.reg.toLowerCase()))return alert("That registration already exists.");if(id)S.v=S.v.map(x=>x.id==id?o:x);else{o.id=uid();S.v.push(o)}save();dlg.close();render()})}
-function pv(html,o){document.getElementById("pg").textContent="@page{size:A4 "+o+";margin:10mm}";const p=document.getElementById("pv");p.innerHTML='<div class="tb"><button class="b" onclick="printNow()">Print / Save as PDF</button><button class="b g" onclick="pvx()">Close</button></div><div class="pg '+(o=="landscape"?"land":"port")+'">'+html+'</div>';p.classList.add("open");fit(o)}
-var pvo;function fit(o){pvo=o;const p=document.getElementById("pv"),g=p.querySelector(".pg");if(g)g.style.zoom=Math.min(1,(p.clientWidth-24)/(o=="landscape"?1123:794))}
-addEventListener("resize",()=>{if(document.getElementById("pv").classList.contains("open"))fit(pvo)});
-function pvx(){document.getElementById("pv").classList.remove("open")}
-function printNow(){try{window.print()}catch(x){alert("Printing is blocked in this view.")}}
-function det(g){return{d:S.d.find(x=>x.id==g.driver),v:S.v.find(x=>x.id==g.vehicle)}}
-const TBC="To be confirmed";
-function msg(g){const{d,v}=det(g),T=TBC.toLowerCase(),p=t=>t?D2(t):T;
-return "Hello "+g.name+", here are your wedding travel details.\n\nHotel: "+(g.hotel||T)+(g.room?", Room "+g.room:"")+"\nCheck-in: "+p(g.cin)+"\nCheck-out: "+p(g.cout)+"\n\nArrival: "+((g.aMethod||"")+" "+(g.aName||"")+" "+(g.aNum||"")).replace(/\s+/g," ").trim()+" at "+(g.aPlace||T)+"\nArrival time: "+p(g.aAt)+"\nCar: "+(v?(v.model||v.type)+" — "+v.reg:T)+"\nDriver: "+(d?d.name+", "+d.phone:T)+"\nDriver will be at the pickup point at: "+p(g.rep)}
-function sheet(id){const g=S.g.find(x=>x.id==id),ph=(g.phone||"").replace(/\D/g,"");
-dlg.innerHTML=`<h2>Send to ${e(g.name)}</h2><textarea id="sm" rows="11" style="width:100%">${e(msg(g))}</textarea><div class="bar" style="margin-top:12px"><button class="b" onclick="cp(this)">Copy message</button>${ph?`<button class="b" onclick="wa('${ph}')">WhatsApp</button>`:""}<button class="b g" onclick="dlg.close();guestPdf('${g.id}')">Guest PDF</button><button class="b g" onclick="dlg.close()">Close</button></div><small>You can edit the text before sending. WhatsApp needs a phone number with country code.</small>`;dlg.showModal()}
-function cp(b){const t=document.getElementById("sm");t.select();try{navigator.clipboard.writeText(t.value);b.textContent="Copied"}catch(x){b.textContent="Press Ctrl+C"}}
-function wa(p){window.open("https://wa.me/"+p+"?text="+encodeURIComponent(document.getElementById("sm").value),"_blank")}
-function guestPdf(id){const g=S.g.find(x=>x.id==id),{d,v}=det(g),r=(a,b)=>`<tr><th>${a}</th><td>${e(b)||TBC}</td></tr>`,p=t=>t?t.replace("T"," "):"";
-pv(`<h1>Wedding Travel &amp; Stay Details</h1><h2>${e(g.name)}</h2><table class="pr"><tbody>`+r("Hotel",g.hotel)+r("Room",g.room)+r("Room category",g.cat)+r("Check-in",p(g.cin))+r("Check-out",p(g.cout))+r("Arrival",((g.aMethod||"")+" "+(g.aNum||"")).trim()+(g.aPlace?" at "+g.aPlace:""))+r("Arrival time",p(g.aAt))+r("Car",v?v.reg+" ("+(v.model||v.type)+")":"")+r("Driver",d?d.name:"")+r("Driver phone",d?d.phone:"")+r("Driver reports at",p(g.rep))+`</tbody></table><p class="ft">Generated ${e(new Date().toLocaleString())}</p>`,"portrait")}
-function adminPdf(){const l=[...S.g].sort((a,b)=>(a.hotel||"~").localeCompare(b.hotel||"~")||a.name.localeCompare(b.name));
-const row=g=>{const{d,v}=det(g);return `<tr><td><b>${e(g.name)}</b><br>${e(g.phone)}</td><td>${e(g.hotel)}</td><td class="rm">${e(g.room)||"—"}</td><td>In ${f(g.cin)}<br>Out ${f(g.cout)}</td><td>${e(g.aMethod)} ${e(g.aNum)}<br>${e(g.aPlace)}<br>${f(g.aAt)}</td><td>${f(g.rep)}</td><td>${e(d?d.name:"—")}<br>${e(d?d.phone:"")}</td><td>${e(v?v.reg:"—")}<br>${e(v?(v.model||v.type):"")}</td><td>${e(g.status)}</td></tr>`};
-const cg="<colgroup><col style='width:14%'><col style='width:13%'><col style='width:7%'><col style='width:12%'><col style='width:15%'><col style='width:10%'><col style='width:11%'><col style='width:11%'><col style='width:7%'></colgroup>";
-const ro=S.d.map(d=>{const t=S.g.filter(x=>x.driver==d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return t.length?`<h2>${e(d.name)} · ${e(d.phone)}</h2><table><thead><tr><th>Reporting</th><th>Guest</th><th>Pickup point</th><th>Vehicle</th></tr></thead><tbody>${t.map(x=>`<tr><td>${f(x.rep)}</td><td>${e(x.name)} (${e(x.pax||1)})</td><td>${e(x.aPlace)}</td><td>${e(vn(x.vehicle))}</td></tr>`).join("")}</tbody></table>`:""}).join("");
-pv(`<h1>Wedding Hospitality — Admin Report</h1><p class="ft">${l.length} guests · Generated ${e(new Date().toLocaleString())}</p><table>${cg}<thead><tr><th>Guest</th><th>Hotel</th><th>Room</th><th>Stay</th><th>Arrival</th><th>Driver reports</th><th>Driver</th><th>Vehicle</th><th>Status</th></tr></thead><tbody>${l.map(row).join("")||'<tr><td colspan="9">No guests yet.</td></tr>'}</tbody></table>${ro?"<h1 style='margin-top:18px'>Driver duty roster</h1>"+ro:""}`,"landscape")}
-const SC={"Expected":"background:#FFF2CC;color:#805B00","Checked in":"background:#DDF3E4;color:#17663A","Checked out":"background:#FCE3E3;color:#A12626"};
-function goSt(s){sf=s;hf="";q="";tab="Guests";render()}
-const HA={"Welina Hotels Bhubaneswar":{n:"Welina Hotel",a:"IDCO Plot, 7/4, near Infocity, Industrial Area, Bhubaneswar, Odisha 751021",c:"Bhubaneswar, Odisha",ok:1,l:"https://maps.app.goo.gl/g1iiJVcPW81U4fmn9",g:"20.3426371,85.8125424"},"Marigold Hotels Bhubaneswar":{n:"Hotel MariGold",a:"KIIT Road, Patia, Bhubaneswar, Odisha",c:"Bhubaneswar, Odisha",ok:1,l:"https://maps.app.goo.gl/QQGpeD9rpa67ZauU6",g:"20.3538076,85.8175882"},"Transitel Hotel Kolkata":{n:"Transitel - A Boutique Hotel",a:"173/4/5, VIP Road, Kaikhali, Kolkata, West Bengal 700052",c:"Kolkata, West Bengal",ok:1,l:"https://maps.app.goo.gl/zAdtJVgYJzD8untw7",g:"22.6324908,88.4343623"}};
-function mapUrl(h){const x=HA[h];if(!x)return"";if(x.l)return x.l;return x.ok?"https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(x.n+", "+x.a):"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(x.n+", "+x.c)}
-const HDR=s=>`<div class="hd"><div class="orn">✦ ❧ ✦</div><div class="nm">Dhritimaan &amp; Tushali</div><div class="orn">— ❖ —</div><div class="sb">${s}</div></div>`;
-function stSel(x){return `<select aria-label="Guest status" style="padding:5px 8px;font-size:13px;font-weight:600;${SC[x.status]||""}" onchange="setSt('${x.id}',this.value)">${["Expected","Checked in","Checked out","Cancelled"].map(s=>`<option ${s==x.status?"selected":""}>${s}</option>`).join("")}</select>`}
-function setSt(id,s){const g=S.g.find(x=>x.id==id),n=new Date().toISOString().slice(0,16);g.status=s;if(s=="Checked in")g.cinAct=n;if(s=="Checked out")g.coutAct=n;save();render()}
-function guestPdf(id){const g=S.g.find(x=>x.id==id),{d,v}=det(g),p=t=>t?D2(t):"",r=(a,b)=>`<tr><th>${a}</th><td>${e(b)||TBC}</td></tr>`,arr=((g.aMethod||"")+" "+(g.aNum||"")).trim();
-pv(HDR("The Wedding Celebrations · December 2026")+`<p style="font-size:15px">Dear <b>${e(g.name)}</b>,</p><div class="dv"><h2>Your Driver &amp; Pickup</h2><div class="big">${e(d?d.name:TBC)}</div><div class="ph">${e(d?d.phone:"")}</div><table class="pr"><tbody>`+r("Car",v?v.reg+" ("+(v.model||v.type)+")":"")+r("Driver reports at",p(g.rep))+r("Your arrival",arr+(g.aPlace?" at "+g.aPlace:""))+r("Arrival time",p(g.aAt))+`</tbody></table></div><h2>Your Stay</h2><table class="pr"><tbody>`+r("Hotel",g.hotel)+r("Room number",g.room)+r("Room category",g.cat)+r("Check-in",p(g.cin))+r("Check-out",p(g.cout))+`</tbody></table><div class="ms">We are so happy you could join us in celebrating the wedding of Dhritimaan &amp; Tushali. Please save your driver’s number and call if you need anything on arrival. Safe travels, and see you very soon!<br><br>With Love,<br>Hillol &amp; Tapobrataa</div><p class="ft">Generated ${NOW()}</p>`,"portrait")}
-function adminPdf(){const l=[...S.g].sort((a,b)=>(a.hotel||"~").localeCompare(b.hotel||"~")||a.name.localeCompare(b.name));
-const row=g=>{const{d,v}=det(g);return `<tr><td><b>${e(g.name)}</b><br>${e(g.phone)}</td><td><b>${e(d?d.name:"—")}</b><br>${e(d?d.phone:"")}</td><td>${e(v?(v.model||v.type):"—")}<br>${e(v?v.reg:"")}</td><td>${f(g.rep)}</td><td>${e(g.aMethod)} ${e(g.aName)} ${e(g.aNum)}<br>${e(g.aPlace)}<br>${f(g.aAt)}</td><td>${e(g.hotel)}</td><td class="rm">${e(g.room)||"—"}</td><td>In ${f(g.cin)}<br>Out ${f(g.cout)}</td><td>${e(g.status)}</td></tr>`};
-const cg="<colgroup><col style='width:13%'><col style='width:12%'><col style='width:11%'><col style='width:10%'><col style='width:14%'><col style='width:12%'><col style='width:6%'><col style='width:13%'><col style='width:9%'></colgroup>";
-const ro=S.d.map(d=>{const t=S.g.filter(x=>x.driver==d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return t.length?`<h2>${e(d.name)} · ${e(d.phone)}</h2><table><thead><tr><th>Reporting</th><th>Guest</th><th>Pickup point</th><th>Vehicle</th></tr></thead><tbody>${t.map(x=>`<tr><td>${f(x.rep)}</td><td>${e(x.name)} (${e(x.pax||1)})</td><td>${e(x.aPlace)}</td><td>${e(vn(x.vehicle))}</td></tr>`).join("")}</tbody></table>`:""}).join("");
-pv(HDR("Hospitality Admin Report · "+l.length+" guests")+`<p class="ft">Generated ${NOW()}</p><table class="wide">${cg}<thead><tr><th>Guest</th><th>Driver</th><th>Vehicle</th><th>Driver reports</th><th>Arrival</th><th>Hotel</th><th>Room</th><th>Stay</th><th>Status</th></tr></thead><tbody>${l.map(row).join("")||'<tr><td colspan="9">No guests yet.</td></tr>'}</tbody></table>${ro?"<h1 style='margin-top:18px;font-size:18px;color:#243B32'>Driver duty roster</h1>"+ro:""}`,"landscape")}
-function guestPdf(id){const g=S.g.find(x=>x.id==id),{d,v}=det(g),p=t=>t?D2(t):"",r=(a,b)=>b?`<tr><th>${a}</th><td>${e(b)}</td></tr>`:"",h=HA[g.hotel],u=mapUrl(g.hotel),alt=(HA[g.hotel]||{}).g?"https://www.google.com/maps/dir/?api=1&destination="+HA[g.hotel].g:"",arr=[g.aMethod,g.aName,g.aNum].filter(Boolean).join(" "),car=v?(v.model||v.type)+" — "+v.reg:"";
-const stay=`<table class="pr"><tbody>${r("Hotel",g.hotel||TBC)}${u?`<tr><th>Address</th><td>${h?e(h.a):""}</td></tr>`:""}${r("Room number",g.room||"Room Not Assigned")}${r("Check-in",p(g.cin)||TBC)}${r("Check-out",p(g.cout)||TBC)}</tbody></table>`;
-const map=u?`<p style="margin:8px 0"><a href="${u}" target="_blank" rel="noopener"><b>Open Hotel in Google Maps</b></a><br><span class="ft">${e(u)}</span></p>`:"";
-const arrT=(arr||g.aAt)?`<h2>Your Arrival</h2><table class="pr"><tbody>${r("Flight / train",arr)}${r("Arrival point",g.aPlace)}${r("Arrival time",p(g.aAt))}</tbody></table>`:"";
-const body=d?`<div class="dv"><h2>Your Driver &amp; Pickup</h2><div class="big">${e(d.name)}</div><div class="ph">${e(d.phone)}</div><table class="pr"><tbody>${r("Car",car)}${r("Driver reports at",p(g.rep))}${r("Pickup location",g.aPlace)}${r("Your arrival",arr)}${r("Arrival time",p(g.aAt))}${r("Destination",g.hotel)}</tbody></table>${v?"":"<p class='ft'>Vehicle details will be shared soon.</p>"}</div><h2>Your Stay</h2>${stay}`:(v?`<div class="dv"><h2>Pickup</h2><p><b>Driver assignment is pending.</b> We will share your driver\u2019s details soon.</p></div>`:"")+arrT+`<div class="dv"><h2>Hotel Accommodation &amp; Directions</h2>${stay}</div>`;
-pv(HDR("The Wedding Celebrations · December 2026")+`<p style="font-size:15px">Dear <b>${e(g.name)}</b>,</p>`+body+`<div class="ms">We are so happy you could join us in celebrating the wedding of Dhritimaan &amp; Tushali. Safe travels, and see you very soon!<br><br>With Love,<br>Hillol &amp; Tapobrataa<br>(7894444767)</div><p class="ft">Generated ${NOW()}</p>`,"portrait")}
-const dlg=document.getElementById("dlg");
-const SM={name:0,phone:0,pax:0,vip:0,notes:0,hotel:1,cat:1,room:1,cin:1,cout:1,status:1,aMethod:2,aName:2,aNum:2,aPlace:2,aAt:2,pickup:3,rep:3,driver:3,vehicle:3},ST=[["👤","Guest details"],["🏨","Stay"],["✈️","Journey"],["🚗","Driver needs"]];
-function form(title,fl,v,cb){const d=document.getElementById("dlg");
-const fld=([k,l,t,o,w])=>`<label class="${w?"w":""}">${l}${t=="s"?`<select id="f_${k}">${o.map(x=>{const a=Array.isArray(x)?x:[x,x];return `<option value="${e(a[0])}" ${String(v[k]||"")==a[0]?"selected":""}>${e(a[1])}</option>`}).join("")}</select>`:t=="a"?`<textarea id="f_${k}" rows="2">${e(v[k])}</textarea>`:`<input id="f_${k}" type="${t}" value="${e(v[k])}" ${t=="datetime-local"?`oninput="document.getElementById('d_${k}').textContent=D2(this.value)"`:""}>${t=="datetime-local"?`<small id="d_${k}">${e(D2(v[k]))}</small>`:""}`}</label>`;
-const h=fl.some(x=>x[0]=="hotel")?ST.map((s,i)=>{const m=fl.filter(x=>SM[x[0]]===i);return m.length?`<section class="sec" style="--i:${i}"><h3>${s[0]} ${s[1]}</h3><div class="f">${m.map(fld).join("")}</div></section>`:""}).join(""):`<div class="f">${fl.map(fld).join("")}</div>`;
-d.innerHTML=`<h2>${e(title)}</h2>${h}<div class="bar stick"><button class="b" id="sv">Save</button><button class="b g" onclick="dlg.close()">Cancel</button></div>`;
-d.showModal();document.getElementById("sv").onclick=()=>{const o={...v};fl.forEach(([k])=>o[k]=document.getElementById("f_"+k).value.trim());cb(o)}}
-var curG;
-ST.length=0;ST.push(["👤","Guest"],["✈️","Journey"],["🏨","Stay"],["🚗","Driver needs"],["📝","Notes"]);Object.keys(SM).forEach(k=>delete SM[k]);Object.assign(SM,{name:0,aMethod:1,aName:1,aNum:1,aPlace:1,aAt:1,hotel:2,cat:2,room:2,cin:2,cout:2,status:2,pickup:3,rep:3,driver:3,vehicle:3,phone:0,vip:0,pax:3,notes:4});
-const AIR=["Bhubaneswar Airport","Kolkata Airport"],STN=["Bhubaneswar Station","Bhubaneswar Railway Station","Howrah Station","Sealdah Station","Kolkata (Chitpur) Station"];
-function placeOpts(m,cur){const l=["Bhubaneswar Airport","Bhubaneswar Station","Kolkata Airport"];if(cur&&!l.includes(cur))l.push(cur);return[["","— select —"],...l.map(x=>[x,x])]}
-function iso(d){const z=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate())+"T"+z(d.getHours())+":"+z(d.getMinutes())}
-dlg.addEventListener("change",ev=>{if(ev.target.id=="f_aMethod"){const c=document.getElementById("f_aPlace");if(c)c.innerHTML=placeOpts(ev.target.value,"").map(a=>`<option value="${e(a[0])}">${e(a[1])}</option>`).join("")}
-if(ev.target.id=="f_aAt"&&ev.target.value){const t=new Date(ev.target.value).getTime();if(isNaN(t))return;[["cin",t+36e5],["rep",t-27e5]].forEach(([k,m])=>{const x=document.getElementById("f_"+k);if(!x)return;x.value=iso(new Date(m));const dl=document.getElementById("d_"+k);if(dl)dl.textContent=D2(x.value);x.dispatchEvent(new Event("change",{bubbles:true}))})}});
-function roomClash(o,oth){if(!o.hotel||!o.room||["Checked out","Cancelled"].includes(o.status))return null;const r=o.room.trim().toLowerCase();return oth.find(x=>x.hotel==o.hotel&&(x.room||"").trim().toLowerCase()==r&&!["Checked out","Cancelled"].includes(x.status)&&(!(o.cin&&o.cout&&x.cin&&x.cout)||(ms(o.cin)<ms(x.cout)&&ms(x.cin)<ms(o.cout))))||null}
-function drvClash(o,oth){if(!o.driver||!o.rep)return null;const pl=(o.aPlace||"").trim().toLowerCase();return oth.find(x=>x.driver==o.driver&&x.rep&&Math.abs(ms(x.rep)-ms(o.rep))<72e5&&!same(o,x))||null}
-function same(o,x){const a=(o.aPlace||"").trim().toLowerCase();return !!a&&a==(x.aPlace||"").trim().toLowerCase()&&Math.abs(ms(o.rep)-ms(x.rep))<=18e5}
-function PL(ex){return gv("aPlace")||(S.g.find(y=>y.id==ex)||{}).aPlace||""}
-function drvMsg(dc,o){const a=(o.aPlace||"").trim().toLowerCase(),sp=a&&(dc.aPlace||"").trim().toLowerCase()==a;return "This driver already has a trip at <b>"+e(D2(dc.rep))+"</b> ("+e(dc.name)+", "+e(dc.aPlace||"pickup point not entered")+"). "+(sp?"The pickup place is the same but the time is different, so the driver is still busy.":"This time has already been allocated to the driver at a <b>different place</b>; a driver cannot be at two places in the same time frame.")+" The same driver can only share a pickup at the same place and the same time, up to the vehicle capacity. Please choose another driver or change the time or place."}
-function capClash(o,oth){if(!o.driver||!o.vehicle||!o.rep)return null;const v=S.v.find(x=>x.id==o.vehicle);if(!v)return null;const m=oth.filter(x=>x.driver==o.driver&&x.rep&&same(o,x)),used=m.reduce((s,x)=>s+(+x.pax||1),0)+(+o.pax||1);return used>+v.cap?{used,cap:+v.cap,m,v}:null}
-function capMsg(c){return "With this guest there would be <b>"+c.used+"</b> passengers on this shared trip, but <b>"+e((c.v.model||c.v.type)+" — "+c.v.reg)+"</b> holds only <b>"+c.cap+"</b>. Already on this trip: "+(c.m.map(x=>e(x.name)+" ("+(+x.pax||1)+")").join(", ")||"none")+". Please choose a bigger vehicle or another driver."}
-dlg.addEventListener("change",ev=>{const i=ev.target.id;if(i=="f_aPlace"){const s=document.getElementById("f_driver");if(s){const c=s.value;s.innerHTML=drvOpts(gv("rep"),curG).map(a=>`<option value="${e(a[0])}">${e(a[1])}</option>`).join("");s.value=c}}
-if(["f_driver","f_rep","f_aPlace","f_vehicle","f_pax"].includes(i)){const o={driver:gv("driver"),vehicle:gv("vehicle"),rep:gv("rep"),aPlace:gv("aPlace"),pax:gv("pax")},oth=S.g.filter(x=>x.id!=curG),cc=capClash(o,oth);if(cc&&!drvClash(o,oth))redPop("Vehicle capacity full",capMsg(cc))}});
-function sched(t){const dt={};t.forEach(x=>{const d=x.rep?x.rep.slice(0,10):"",h=x.rep?x.rep.slice(11,16):"";(dt[d]=dt[d]||{});(dt[d][h]=dt[d][h]||[]).push(x)});
-return Object.keys(dt).sort().map(d=>`<h3 class="dh">📅 ${d?e(D2(d)):"Date not set"}</h3>`+Object.keys(dt[d]).sort().map(h=>`<div class="tm">🕐 ${h?"Reports at "+e(h):"Time not set"}</div><ul class="gl">${dt[d][h].map(x=>`<li><b>${e(x.name)}</b> · ${e(x.pax||1)} pax · ${e(x.aPlace)||"place not set"}<br><small>${e(vn(x.vehicle))||"No vehicle"}</small></li>`).join("")}</ul>`).join("")).join("")}
-function drvPdf(id){const ds=S.d.filter(d=>(!id||d.id==id)&&S.g.some(x=>x.driver==d.id));if(!ds.length){alert("No trips are assigned to export.");return}
-const cg="<colgroup><col style='width:16%'><col style='width:11%'><col style='width:5%'><col style='width:20%'><col style='width:13%'><col style='width:14%'><col style='width:12%'><col style='width:9%'></colgroup>";
-const pg=ds.map((d,i)=>{const t=S.g.filter(x=>x.driver==d.id),dt={};t.forEach(x=>{const k=x.rep?x.rep.slice(0,10):"",h=x.rep?x.rep.slice(11,16):"";(dt[k]=dt[k]||{});(dt[k][h]=dt[k][h]||[]).push(x)});
-const vs=[...new Set(t.map(x=>vn(x.vehicle)).filter(Boolean))];
-const body=Object.keys(dt).sort().map(k=>`<h2 class="pdh">📅 ${k?e(D2(k))+" · "+e(new Date(k+"T00:00").toLocaleDateString("en-IN",{weekday:"long"})):"Date not set"}</h2>`+Object.keys(dt[k]).sort().map(h=>{const g=dt[k][h],px=g.reduce((s,x)=>s+(+x.pax||1),0);return `<div class="tm2">🕐 ${h?"Driver reports at "+e(h):"Reporting time not set"} · ${g.length} guest${g.length>1?"s":""} · ${px} pax</div><table>${cg}<thead><tr><th>Guest</th><th>Phone</th><th>Pax</th><th>Arrival</th><th>Pickup point</th><th>Drop at hotel</th><th>Vehicle</th><th>Notes</th></tr></thead><tbody>${g.map(x=>`<tr><td><b>${e(x.name)}</b></td><td>${e(x.phone)}</td><td>${e(x.pax||1)}</td><td>${e([x.aMethod,x.aName,x.aNum].filter(Boolean).join(" "))}<br>${f(x.aAt)}</td><td>${e(x.aPlace)}</td><td>${e(x.hotel)}</td><td>${e(vn(x.vehicle))}</td><td>${e(x.notes)}</td></tr>`).join("")}</tbody></table>`}).join("")).join("");
-return `<div class="${i?"np":""}">`+HDR("Driver Duty Sheet")+`<div class="dv"><div class="dname">${e(d.name)}</div><div class="ph" style="margin:4px 0 0">📞 ${e(d.phone)}</div><p class="ft" style="margin:6px 0 0">Vehicle: ${e(vs.join(", ")||"not assigned")} · ${t.length} guest${t.length>1?"s":""}</p></div>`+body+`<p class="ft">Please reach the pickup point at the reporting time and keep the guest phone numbers handy. Generated ${NOW()}</p></div>`}).join("");
-pv(pg,"landscape")}
-function redPop(t,m){document.querySelectorAll("#al").forEach(x=>x.remove());const a=document.createElement("dialog");a.id="al";a.className="red";a.setAttribute("role","alertdialog");a.innerHTML=`<h2>⚠ ${t}</h2><p>${m}</p><div class="bar"><button class="b" style="background:#c0392b" onclick="this.closest('dialog').close()">OK, I will change it</button></div>`;document.body.append(a);a.showModal()}
-function gv(k){const x=document.getElementById("f_"+k);return x?x.value:""}
-dlg.addEventListener("change",ev=>{const i=ev.target.id,oth=S.g.filter(x=>x.id!=curG);if(i=="f_room"||i=="f_hotel"||i=="f_cin"||i=="f_cout"){const o={hotel:gv("hotel"),room:gv("room").trim(),cin:gv("cin"),cout:gv("cout"),status:gv("status")},rc=roomClash(o,oth);if(rc)redPop("Room already allocated","Room <b>"+e(o.room)+"</b> of <b>"+e(o.hotel)+"</b> is already allocated to <b>"+e(rc.name)+"</b>. Please choose a different room number.")}if(i=="f_driver"||i=="f_rep"||i=="f_aPlace"){const o={driver:gv("driver"),rep:gv("rep"),aPlace:gv("aPlace")},dc=drvClash(o,oth);if(dc)redPop("Driver already allocated",drvMsg(dc,o))}});
-function busy(did,rep,ex){if(!did||!rep)return null;return S.g.find(x=>x.id!=ex&&x.driver==did&&x.rep&&Math.abs(ms(x.rep)-ms(rep))<72e5&&!same({aPlace:PL(ex),rep},x))||null}
-function drvOpts(rep,ex){return[["","— none —"],...S.d.map(d=>{const b=busy(d.id,rep,ex);return[d.id,d.name+(b?" — OCCUPIED (trip at "+D2(b.rep)+")":"")]})]}
-function occTag(d){const n=Date.now(),z=k=>String(k).padStart(2,"0"),t=S.g.filter(x=>x.driver==d.id&&x.rep).sort((a,b)=>ms(a.rep)-ms(b.rep)),c=t.find(x=>n>=ms(x.rep)&&n<ms(x.rep)+72e5);if(c){const u=new Date(ms(c.rep)+72e5);return '<span class="tag bad">Occupied now until '+z(u.getHours())+':'+z(u.getMinutes())+'</span>'}const nx=t.find(x=>ms(x.rep)>n);return nx?'<span class="tag warn">Next trip '+D2(nx.rep)+'</span>':'<span class="tag ok">Free</span>'}
-dlg.addEventListener("change",ev=>{if(ev.target.id=="f_rep"){const s=document.getElementById("f_driver");if(s){const c=s.value;s.innerHTML=drvOpts(ev.target.value,curG).map(a=>`<option value="${e(a[0])}">${e(a[1])}</option>`).join("");s.value=c}}});
+const H=["Welina Hotels Bhubaneswar","Marigold Hotels Bhubaneswar","Transitel Hotel Kolkata"];
+const HA={
+ "Welina Hotels Bhubaneswar":{name:"Welina Hotel",address:"IDCO Plot, 7/4, near Infocity, Industrial Area, Bhubaneswar, Odisha 751021",map:"https://maps.app.goo.gl/g1iiJVcPW81U4fmn9"},
+ "Marigold Hotels Bhubaneswar":{name:"Hotel MariGold",address:"KIIT Road, Patia, Bhubaneswar, Odisha",map:"https://maps.app.goo.gl/QQGpeD9rpa67ZauU6"},
+ "Transitel Hotel Kolkata":{name:"Transitel - A Boutique Hotel",address:"173/4/5, VIP Road, Kaikhali, Kolkata, West Bengal 700052",map:"https://maps.app.goo.gl/zAdtJVgYJzD8untw7"}
+};
 const CATS={"Welina Hotels Bhubaneswar":["Executive","Premium"],"Marigold Hotels Bhubaneswar":["Premium","Luxury"],"Transitel Hotel Kolkata":["Premium","Club"]};
-function catOpts(h,cur){const l=[...(CATS[h]||[])];if(cur&&!l.includes(cur))l.push(cur);return[["","— select —"],...l.map(x=>[x,x])]}
-dlg.addEventListener("change",ev=>{if(ev.target.id=="f_hotel"){const c=document.getElementById("f_cat");if(c)c.innerHTML=catOpts(ev.target.value,"").map(a=>`<option value="${e(a[0])}">${e(a[1])}</option>`).join("")}});
+const TABS=["Dashboard","Guests","Hotels","Arrivals","Transport","Data"];
+const DEFAULT_DATA=()=>({g:[],d:[],v:[]});
+let S=DEFAULT_DATA(),tab="Dashboard",q="",hf="",sf="",adminReady=false,curG=null,pvo="portrait";
+const $=id=>document.getElementById(id),dlg=$("dlg"),loginEl=$("admin-login"),loginForm=$("admin-login-form"),loginError=$("admin-login-error");
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>Math.random().toString(36).slice(2,10),today=()=>new Date().toISOString().slice(0,10),ms=t=>t?new Date(t).getTime():NaN;
+const D2=t=>{if(!t)return"";const m=String(t).match(/^(\d{4})-(\d\d)-(\d\d)(?:T(\d\d:\d\d))?/);return m?m[3]+"/"+m[2]+"/"+m[1]+(m[4]?" "+m[4]:""):String(t)};
+const f=t=>t?esc(D2(t)):"—",NOW=()=>new Date().toLocaleString("en-IN");
+const det=g=>({d:S.d.find(x=>x.id===g.driver),v:S.v.find(x=>x.id===g.vehicle)});
+const dn=id=>(S.d.find(x=>x.id===id)||{}).name||"",vn=id=>{const v=S.v.find(x=>x.id===id);return v?(v.model||v.type)+" — "+v.reg:""};
+const toast=msg=>{const old=$("ts");if(old)old.remove();const x=document.createElement("div");x.id="ts";x.textContent=msg;document.body.appendChild(x);setTimeout(()=>x.remove(),3500)};
+function showLogin(message=""){adminReady=false;loginEl.style.display="flex";$("nav").hidden=true;$("m").hidden=true;$("admin-signout").hidden=true;loginError.textContent=message}
+function showApp(){loginEl.style.display="none";$("nav").hidden=false;$("m").hidden=false;$("admin-signout").hidden=false}
+async function load(){
+ const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+ if(sessionError)throw sessionError;if(!sessionData.session)throw new Error("Please sign in to continue.");
+ const {data,error}=await supabaseClient.from("wedding_app_data").select("data").eq("id",1).maybeSingle();
+ if(error)throw error;const saved=data&&data.data?data.data:DEFAULT_DATA();
+ return {g:Array.isArray(saved.g)?saved.g:[],d:Array.isArray(saved.d)?saved.d:[],v:Array.isArray(saved.v)?saved.v:[]};
+}
+async function save(){
+ if(!adminReady){toast("Please sign in before saving.");return false}
+ try{
+  const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();if(sessionError)throw sessionError;
+  if(!sessionData.session)throw new Error("Your session expired. Please sign in again.");
+  const {error}=await supabaseClient.from("wedding_app_data").upsert({id:1,data:S,updated_at:new Date().toISOString()},{onConflict:"id"});
+  if(error)throw error;toast("Saved successfully to Supabase");return true;
+ }catch(error){console.error("Save failed:",error);toast("Save failed: "+(error.message||"Unknown error"));return false}
+}
+async function startAdminApp(){
+ try{const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;
+  if(!data.session){S=DEFAULT_DATA();showLogin();return}
+  S=await load();adminReady=true;showApp();render();
+ }catch(error){console.error("Authentication/data load failed:",error);showLogin("Signed in, but dashboard data could not load: "+(error.message||"Unknown error")+". Check that the wedding_app_data table and its authenticated-user policies exist in Supabase.")}
+}
+async function signOutAdmin(){const {error}=await supabaseClient.auth.signOut();if(error){toast(error.message||"Could not sign out");return}adminReady=false;S=DEFAULT_DATA();showLogin()}
+loginForm.addEventListener("submit",async event=>{
+ event.preventDefault();const email=$("admin-email").value.trim(),password=$("admin-password").value,button=loginForm.querySelector('button[type="submit"]');
+ button.disabled=true;button.textContent="Signing in…";loginError.textContent="";
+ try{const {error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;await startAdminApp()}
+ catch(error){showLogin(error.message||"Sign-in failed. Check your email and password.")}
+ finally{button.disabled=false;button.textContent="Sign in"}
+});
+supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"||!session){S=DEFAULT_DATA();showLogin()}});
+function nav(){$("nav").innerHTML=TABS.map(t=>`<button class="${t===tab?"on":""}" onclick="tab='${t}';render()">${esc(t)}</button>`).join("")}
+function render(){if(!adminReady)return;nav();$("m").innerHTML=V[tab]();if(tab==="Dashboard")setTimeout(()=>document.querySelectorAll("[data-n]").forEach(count),0)}
+function count(el){const n=+el.dataset.n;let i=0;const step=()=>{i++;el.textContent=Math.round(n*Math.min(1,i/18));if(i<18)requestAnimationFrame(step)};if(matchMedia("(prefers-reduced-motion:reduce)").matches)el.textContent=n;else step()}
+function stat(label,n){return `<div class="card stat"><b data-n="${n}">0</b><small>${esc(label)}</small></div>`}
+const missing=g=>g.aMethod&&(!g.aAt||!g.aPlace||(["Flight","Train"].includes(g.aMethod)&&!g.aNum));
+const needsPick=g=>g.pickup!=="No"&&g.aMethod&&(!g.driver||!g.vehicle);
+const SC={"Expected":"background:#fff2cc;color:#805b00","Checked in":"background:#ddf3e4;color:#17663a","Checked out":"background:#fce3e3;color:#a12626","Cancelled":"background:#eee;color:#555"};
+function stSel(x){return `<select aria-label="Guest status" style="padding:5px 8px;font-size:12px;font-weight:600;${SC[x.status]||""}" onchange="setSt('${esc(x.id)}',this.value)">${["Expected","Checked in","Checked out","Cancelled"].map(s=>`<option ${s===x.status?"selected":""}>${s}</option>`).join("")}</select>`}
+function setSt(id,status){const g=S.g.find(x=>x.id===id);if(!g)return;const n=new Date().toISOString().slice(0,16);g.status=status;if(status==="Checked in")g.cinAct=n;if(status==="Checked out")g.coutAct=n;save();render()}
+function goSt(status){sf=status;hf="";q="";tab="Guests";render()}
+const V={
+Dashboard(){
+ const g=S.g,t=today(),stats=[["Arriving today",g.filter(x=>(x.aAt||"").startsWith(t)).length],["Checking out today",g.filter(x=>(x.cout||"").startsWith(t)).length],["By flight",g.filter(x=>x.aMethod==="Flight").length],["By train",g.filter(x=>x.aMethod==="Train").length],["Pickups needing driver/vehicle",g.filter(needsPick).length],["Incomplete records",g.filter(x=>missing(x)||!x.hotel||!x.room).length]],up=g.filter(x=>x.aAt).sort((a,b)=>ms(a.aAt)-ms(b.aAt)).slice(0,8);
+ return `<div class="bar"><button class="b" onclick="gForm()">+ Add guest</button><button class="b g" onclick="tab='Transport';render()">Drivers &amp; vehicles</button><button class="b g" onclick="adminPdf()">Export admin PDF</button></div>
+ <div class="grid">${[["Total guests","", "#c5a46d"],["Expected","Expected","#f2c94c"],["Checked in","Checked in","#2e8b57"],["Checked out","Checked out","#c0392b"]].map(x=>`<button class="card stat" style="text-align:left;border-top:4px solid ${x[2]}" onclick="goSt('${x[1]}')"><b data-n="${x[1]?g.filter(y=>y.status===x[1]).length:g.length}">0</b><small>${x[0]}</small></button>`).join("")}</div>
+ <div class="grid">${stats.map(x=>stat(x[0],x[1])).join("")}</div><h2>Guests per hotel</h2><div class="grid">${H.map(h=>`<div class="card"><b>${esc(h)}</b><br><small>${g.filter(x=>x.hotel===h).length} guests</small></div>`).join("")}</div>
+ <h2>Upcoming arrivals</h2><div class="card">${up.length?up.map(x=>`<div class="row"><span><b>${esc(x.name)}</b> · ${esc([x.aMethod,x.aName,x.aNum].filter(Boolean).join(" "))}</span><span>${f(x.aAt)}</span><button class="b s" onclick="gForm('${x.id}')">Edit</button></div>`).join(""):'<div class="empty">No arrivals recorded yet. Add a guest with arrival details.</div>'}</div>`;
+},
+Guests(){
+ const list=S.g.filter(x=>(!hf||x.hotel===hf)&&(!sf||x.status===sf)&&(!q||[x.name,x.phone,x.hotel,x.room,x.aNum,x.aName].join(" ").toLowerCase().includes(q.toLowerCase())));
+ return `<div class="bar"><input id="qs" placeholder="Search name, phone, room, flight/train" value="${esc(q)}" oninput="q=this.value;keep()"><select aria-label="Status filter" onchange="sf=this.value;render()"><option value="">All statuses</option>${["Expected","Checked in","Checked out","Cancelled"].map(s=>`<option ${s===sf?"selected":""}>${s}</option>`).join("")}</select><select onchange="hf=this.value;render()"><option value="">All hotels</option>${H.map(h=>`<option ${h===hf?"selected":""}>${esc(h)}</option>`).join("")}</select><button class="b" onclick="gForm()">+ Add guest</button><button class="b g" onclick="adminPdf()">Export all (PDF)</button><button class="b g" onclick="csv()">Prepare CSV</button></div>
+ <div class="tw"><table><thead><tr><th>Guest</th><th>Hotel</th><th>Room</th><th>Stay</th><th>Status</th><th>Actions</th></tr></thead><tbody>${list.length?list.map(x=>`<tr><td><b>${esc(x.name)}</b>${x.vip==="Yes"?' <span class="tag warn">VIP</span>':""}<br><small>${esc(x.phone)} · ${esc(x.pax||1)} pax</small></td><td>${esc(x.hotel)||'<span class="tag bad">No hotel</span>'}</td><td><span class="room">${esc(x.room)||"—"}</span><br><small>${esc(x.cat)||"Category not set"}</small></td><td><small>In ${f(x.cin)}<br>Out ${f(x.cout)}</small></td><td>${stSel(x)}</td><td><button class="b s" onclick="gForm('${x.id}')">Edit</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button> <button class="b g s" onclick="del('${x.id}')">Delete</button></td></tr>`).join(""):'<tr><td colspan="6" class="empty">No guests found. Use Add guest to start.</td></tr>'}</tbody></table></div>`;
+},
+Hotels(){return `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">${H.map(h=>{const g=S.g.filter(x=>x.hotel===h),info=HA[h];return `<div class="card"><h3>${esc(h)}</h3><small>${esc(info.address)}</small><p><b>${g.length}</b> guests</p><div class="bar"><span class="tag expected">Expected ${g.filter(x=>x.status==="Expected").length}</span><span class="tag in">Checked in ${g.filter(x=>x.status==="Checked in").length}</span><span class="tag out">Checked out ${g.filter(x=>x.status==="Checked out").length}</span></div><p><a href="${info.map}" target="_blank" rel="noopener">Open Google Maps</a></p><button class="b s" onclick="hf='${h}';sf='';tab='Guests';render()">Open guest list</button>${g.length?g.map(x=>`<div class="row"><b>${esc(x.name)}</b>${x.room?`<span class="room">${esc(x.room)}</span>`:'<span class="tag warn">Room not assigned</span>'}<small style="flex-basis:100%">${esc(x.cat)||"Category not set"}</small>${stSel(x)}</div>`).join(""):'<div class="empty">No guests assigned.</div>'}</div>`}).join("")}</div>`},
+Arrivals(){
+ const list=S.g.filter(x=>x.aMethod).sort((a,b)=>ms(a.aAt)-ms(b.aAt));
+ return `<div class="bar"><small>Arrival time is when the flight/train lands. Driver reporting time is when the driver must be at the pickup point.</small></div><div class="tw"><table><thead><tr><th>Guest</th><th>Arrival</th><th>Reporting</th><th>Pickup</th><th>Flags / actions</th></tr></thead><tbody>${list.length?list.map(x=>`<tr><td><b>${esc(x.name)}</b><br><small>${esc(x.pax||1)} pax → ${esc(x.hotel)}</small></td><td>${f(x.aAt)}<br><small>${esc([x.aMethod,x.aName,x.aNum].filter(Boolean).join(" "))} · ${esc(x.aPlace)}</small></td><td>${f(x.rep)}</td><td>${esc(dn(x.driver))||"—"}<br><small>${esc(vn(x.vehicle))}</small></td><td>${!x.driver?'<span class="tag bad">No driver</span>':""}${!x.vehicle?'<span class="tag bad">No vehicle</span>':""}${missing(x)?'<span class="tag warn">Missing info</span>':""}${x.driver&&x.vehicle?'<span class="tag ok">Assigned</span>':""}<br><button class="b g s" onclick="gForm('${x.id}')">Edit</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button></td></tr>`).join(""):'<tr><td colspan="5" class="empty">No arrivals yet.</td></tr>'}</tbody></table></div>`;
+},
+Transport(){return `<div class="bar"><button class="b" onclick="drvPdf()">Export all drivers (PDF)</button></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card"><h3 class="hh">🚗 Drivers</h3><p><button class="b s" onclick="dForm()">+ Add driver</button></p>${S.d.length?S.d.map(d=>`<div class="row"><span><b class="dn">${esc(d.name)}</b><br><small>${esc(d.phone)}</small><br>${occTag(d)}</span><span><button class="b g s" onclick="dForm('${d.id}')">Edit</button> <button class="b g s" onclick="rm('d','${d.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No drivers added.</div>'}</div><div class="card"><h3 class="hh">🚙 Vehicles</h3><p><button class="b s" onclick="vForm()">+ Add vehicle</button></p>${S.v.length?S.v.map(v=>`<div class="row"><span><b>${esc(v.model||v.type)} — ${esc(v.reg)}</b><br><small>${esc(v.type)} · capacity ${esc(v.cap)}</small></span><span><button class="b g s" onclick="vForm('${v.id}')">Edit</button> <button class="b g s" onclick="rm('v','${v.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No vehicles added.</div>'}</div></div><h2>Driver-wise schedule</h2>${S.d.map(d=>{const trips=S.g.filter(x=>x.driver===d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return `<div class="card" style="margin-bottom:10px"><div class="bar"><b class="dn">${esc(d.name)}</b><small>${esc(d.phone)}</small><button class="b s" onclick="drvPdf('${d.id}')">Export PDF</button></div>${trips.length?sched(trips):'<small>No trips assigned.</small>'}</div>`}).join("")||'<div class="empty">Add drivers to see schedules.</div>'}`},
+Data(){return `<div class="card"><h3>Backup and export</h3><p>Data is stored centrally in Supabase and shared across signed-in devices. Keep a JSON backup as an extra precaution.</p><div class="bar"><button class="b" onclick="bk()">Show backup (JSON)</button><button class="b g" onclick="rs()">Restore from pasted JSON</button><button class="b g" onclick="csv()">Prepare guest CSV</button></div><textarea id="ta" rows="12" style="width:100%" placeholder="Backup, CSV or pasted JSON appears here"></textarea><p class="ft">Restoring replaces the current guest, driver and vehicle data after confirmation.</p></div>`}
+};
+function keep(){const p=$("qs").selectionStart;render();const i=$("qs");if(i){i.focus();i.setSelectionRange(p,p)}}
+const ta=()=>$("ta");
+function bk(){ta().value=JSON.stringify(S,null,2);ta().select()}
+function csv(){const keys=["name","phone","hotel","cat","room","cin","cout","status","pax","aMethod","aName","aNum","aPlace","aAt","rep","driver","vehicle","notes"];const data=[keys.join(",")].concat(S.g.map(g=>keys.map(k=>'"'+String(g[k]??"").replace(/"/g,'""')+'"').join(","))).join("\n");if(ta()){ta().value=data;ta().select()}else{dlg.innerHTML=`<h2>Guest CSV</h2><textarea id="csvbox" rows="12" style="width:100%">${esc(data)}</textarea><button class="b" onclick="$('csvbox').select();document.execCommand('copy');toast('CSV selected/copied')">Select / copy CSV</button><button class="b g" onclick="dlg.close()">Close</button>`;dlg.showModal()}}
+function rs(){try{const data=JSON.parse(ta().value);if(!Array.isArray(data.g)||!Array.isArray(data.d)||!Array.isArray(data.v))throw new Error();if(confirm("Replace all current data with this backup?")){S={g:data.g,d:data.d,v:data.v};save().then(ok=>{if(ok)render()})}}catch{alert("That is not a valid wedding backup JSON.")}}
+function form(title,fields,value,callback){
+ dlg.innerHTML=`<h2>${esc(title)}</h2><div class="f">${fields.map(([k,label,type,opts,wide])=>`<label class="${wide?"w":""}">${esc(label)}${type==="select"?`<select id="f_${k}">${opts.map(opt=>{const a=Array.isArray(opt)?opt:[opt,opt];return `<option value="${esc(a[0])}" ${String(value[k]??"")===String(a[0])?"selected":""}>${esc(a[1])}</option>`}).join("")}</select>`:type==="textarea"?`<textarea id="f_${k}" rows="3">${esc(value[k]||"")}</textarea>`:`<input id="f_${k}" type="${type}" value="${esc(value[k]??"")}" ${type==="datetime-local"?`oninput="const x=$('d_${k}');if(x)x.textContent=D2(this.value)"`:""}>${type==="datetime-local"?`<small id="d_${k}">${esc(D2(value[k]))}</small>`:""}`}</label>`).join("")}</div><div class="bar" style="margin-top:16px"><button class="b" id="sv">Save</button><button class="b g" onclick="dlg.close()">Cancel</button></div>`;
+ dlg.showModal();$("sv").onclick=()=>{const out={...value};for(const [k] of fields)out[k]=$( "f_"+k).value.trim();callback(out)};
+}
+function catOpts(h,current){const list=[...(CATS[h]||[])];if(current&&!list.includes(current))list.push(current);return [["","— select —"],...list.map(x=>[x,x])]}
+function placeOpts(current){const list=["Bhubaneswar Airport","Bhubaneswar Railway Station","Kolkata Airport","Howrah Station","Sealdah Station"];if(current&&!list.includes(current))list.push(current);return [["","— select —"],...list.map(x=>[x,x])]}
+function sameTrip(a,b){return !!a.aPlace&&a.aPlace.trim().toLowerCase()===String(b.aPlace||"").trim().toLowerCase()&&Math.abs(ms(a.rep)-ms(b.rep))<=30*60*1000}
+function roomClash(o,others){if(!o.hotel||!o.room||["Checked out","Cancelled"].includes(o.status))return null;return others.find(x=>x.hotel===o.hotel&&(x.room||"").trim().toLowerCase()===o.room.trim().toLowerCase()&&!["Checked out","Cancelled"].includes(x.status)&&(!(o.cin&&o.cout&&x.cin&&x.cout)||(ms(o.cin)<ms(x.cout)&&ms(x.cin)<ms(o.cout))))||null}
+function driverClash(o,others){if(!o.driver||!o.rep)return null;return others.find(x=>x.driver===o.driver&&x.rep&&Math.abs(ms(x.rep)-ms(o.rep))<2*60*60*1000&&!sameTrip(o,x))||null}
+function capacityClash(o,others){if(!o.driver||!o.vehicle||!o.rep)return null;const vehicle=S.v.find(v=>v.id===o.vehicle);if(!vehicle)return null;const group=others.filter(x=>x.driver===o.driver&&x.vehicle===o.vehicle&&x.rep&&sameTrip(o,x));const used=group.reduce((n,x)=>n+(+x.pax||1),0)+(+o.pax||1);return used>+vehicle.cap?{used,cap:+vehicle.cap,vehicle,group}:null}
+function gForm(id){
+ curG=id||null;const old=S.g.find(x=>x.id===id)||{status:"Expected",pax:"1",vip:"No",pickup:"Yes",aMethod:"",hotel:"",cat:"",room:"",cin:"",cout:"",aAt:"",rep:"",driver:"",vehicle:""};
+ const fields=[["name","Full name","text"],["phone","Phone (include country code if available)","tel"],["pax","Passengers","number"],["vip","VIP guest","select",["No","Yes"]],["hotel","Hotel","select",[["","— select hotel —"],...H.map(h=>[h,h])]],["cat","Room category (admin only)","select",catOpts(old.hotel,old.cat)],["room","Room number","text"],["cin","Check-in","datetime-local"],["cout","Check-out","datetime-local"],["status","Status","select",["Expected","Checked in","Checked out","Cancelled"]],["aMethod","Arrival method","select",["","Flight","Train","Road","Other"]],["aName","Airline / train name","text"],["aNum","Flight / train number","text"],["aPlace","Airport / station / pickup point","select",placeOpts(old.aPlace)],["aAt","Scheduled arrival time","datetime-local"],["pickup","Pickup needed?","select",["Yes","No"]],["rep","Driver reporting time","datetime-local"],["driver","Driver","select",[["","— none —"],...S.d.map(d=>[d.id,d.name+" ("+(d.phone||"no phone")+")"])]],["vehicle","Vehicle","select",[["","— none —"],...S.v.map(v=>[v.id,(v.model||v.type)+" — "+v.reg+" (capacity "+v.cap+")"])]],["notes","Notes","textarea",null,true]];
+ form(id?"Edit guest":"Add guest",fields,old,o=>{
+  if(!o.name)return alert("Guest name is required.");o.pax=String(Math.max(1,parseInt(o.pax||"1",10)||1));const others=S.g.filter(x=>x.id!==id),warnings=[];
+  if(others.some(x=>x.name.toLowerCase()===o.name.toLowerCase()&&x.phone===o.phone))warnings.push("A guest with the same name and phone already exists.");
+  if(o.cin&&o.cout&&ms(o.cout)<=ms(o.cin))return alert("Check-out must be after check-in.");
+  const rc=roomClash(o,others);if(rc)return alert("Room "+o.room+" at "+o.hotel+" is already allocated to "+rc.name+". Choose another room or correct the stay dates.");
+  const dc=driverClash(o,others);if(dc)return alert("This driver has another pickup within two hours at a different place/time ("+dc.name+", "+D2(dc.rep)+"). Choose another driver or change reporting time/place.");
+  const cc=capacityClash(o,others);if(cc)return alert("Vehicle capacity would be exceeded ("+cc.used+" passengers, capacity "+cc.cap+").");
+  const vehicle=S.v.find(v=>v.id===o.vehicle);if(vehicle&&+o.pax>+vehicle.cap)warnings.push("Passengers exceed this vehicle's capacity.");
+  if(warnings.length&&!confirm("Warnings:\n• "+warnings.join("\n• ")+"\n\nSave anyway?"))return;
+  if(id)S.g=S.g.map(x=>x.id===id?{...o,id}:x);else S.g.push({...o,id:uid()});
+  dlg.close();save().then(ok=>{if(ok)render()});
+ });
+ dlg.addEventListener("change",function updateOptions(ev){if(ev.target.id==="f_hotel"){const c=$("f_cat");if(c)c.innerHTML=catOpts(ev.target.value,"").map(a=>`<option value="${esc(a[0])}">${esc(a[1])}</option>`).join("")}if(ev.target.id==="f_aAt"&&ev.target.value){const t=new Date(ev.target.value).getTime();const cin=$("f_cin"),rep=$("f_rep");if(cin&&!cin.value)cin.value=new Date(t+3600000).toISOString().slice(0,16);if(rep&&!rep.value)rep.value=new Date(t-2700000).toISOString().slice(0,16)}});
+}
+function del(id){const g=S.g.find(x=>x.id===id);if(confirm("Delete guest "+(g?g.name:"")+"?")){S.g=S.g.filter(x=>x.id!==id);save().then(ok=>{if(ok)render()})}}
+function rm(type,id){if(!confirm("Remove this "+(type==="d"?"driver":"vehicle")+"? Existing trips will lose this assignment."))return;S[type]=S[type].filter(x=>x.id!==id);S.g.forEach(g=>{if(g[type==="d"?"driver":"vehicle"]===id)g[type==="d"?"driver":"vehicle"]=""});save().then(ok=>{if(ok)render()})}
+function dForm(id){const old=S.d.find(x=>x.id===id)||{};form(id?"Edit driver":"Add driver",[["name","Full name","text"],["phone","Phone","tel"],["notes","Notes","textarea",null,true]],old,o=>{if(!o.name)return alert("Driver name is required.");if(id)S.d=S.d.map(x=>x.id===id?{...o,id}:x);else S.d.push({...o,id:uid()});dlg.close();save().then(ok=>{if(ok)render()})})}
+function vForm(id){const old=S.v.find(x=>x.id===id)||{type:"Sedan",cap:"4"};form(id?"Edit vehicle":"Add vehicle",[["reg","Registration number","text"],["model","Make / model","text"],["type","Vehicle category","select",["Sedan","SUV","MUV","Tempo Traveller","Bus","Custom"]],["cap","Passenger capacity","number"]],old,o=>{if(!o.reg||!(+o.cap>0))return alert("Registration number and capacity are required.");if(S.v.some(x=>x.id!==id&&x.reg.toLowerCase()===o.reg.toLowerCase()))return alert("That registration already exists.");o.cap=String(parseInt(o.cap,10));if(id)S.v=S.v.map(x=>x.id===id?{...o,id}:x);else S.v.push({...o,id:uid()});dlg.close();save().then(ok=>{if(ok)render()})})}
+function sched(trips){const byDate={};trips.forEach(g=>{const d=g.rep?g.rep.slice(0,10):"Date not set",h=g.rep?g.rep.slice(11,16):"Time not set";(byDate[d]??={});(byDate[d][h]??=[]).push(g)});return Object.keys(byDate).sort().map(d=>`<h3 style="margin-top:12px">📅 ${esc(d==="Date not set"?d:D2(d))}</h3>`+Object.keys(byDate[d]).sort().map(h=>`<div class="row"><b>${esc(h)}</b><span>${byDate[d][h].map(g=>esc(g.name)+" · "+esc(g.aPlace||"no pickup point")+" · "+esc(vn(g.vehicle)||"no vehicle")).join("<br>")}</span></div>`).join("")).join("")}
+function occTag(d){const now=Date.now(),trips=S.g.filter(g=>g.driver===d.id&&g.rep).sort((a,b)=>ms(a.rep)-ms(b.rep)),active=trips.find(g=>now>=ms(g.rep)&&now<ms(g.rep)+2*3600000);if(active)return '<span class="tag bad">Busy until '+esc(new Date(ms(active.rep)+7200000).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))+"</span>";const next=trips.find(g=>ms(g.rep)>now);return next?'<span class="tag warn">Next trip '+f(next.rep)+"</span>":'<span class="tag ok">No upcoming trip</span>'}
+function mapUrl(h){return HA[h]?.map||""}
+function hotelAddress(h){return HA[h]?.address||""}
+function msg(g){const {d,v}=det(g),hotel=g.hotel||"To be confirmed",info=HA[g.hotel];let out="Hello "+g.name+", here are your wedding travel details.\n\nHotel: "+hotel+(g.room?", Room "+g.room:"")+"\n";if(info)out+="Address: "+info.address+"\nGoogle Maps: "+info.map+"\n";out+="Check-in: "+(g.cin?D2(g.cin):"To be confirmed")+"\nCheck-out: "+(g.cout?D2(g.cout):"To be confirmed")+"\n";
+ if(g.aMethod||g.aAt)out+="\nArrival: "+[g.aMethod,g.aName,g.aNum].filter(Boolean).join(" ")+"\nPickup point: "+(g.aPlace||"To be confirmed")+"\nArrival time: "+(g.aAt?D2(g.aAt):"To be confirmed")+"\n";
+ if(d)out+="\nDriver: "+d.name+" · "+(d.phone||"")+"\nDriver reporting time: "+(g.rep?D2(g.rep):"To be confirmed")+"\nCar: "+(v?(v.model||v.type)+" — "+v.reg:"To be confirmed");
+ else out+="\nDriver details: To be confirmed. Please proceed to the hotel details above. Contact RSVP: Hillol 7894444767.";
+ out+="\n\nWith love,\nHillol & Tapobrataa";return out}
+function sheet(id){const g=S.g.find(x=>x.id===id);if(!g)return;const phone=(g.phone||"").replace(/\D/g,"");dlg.innerHTML=`<h2>Guest details — ${esc(g.name)}</h2><textarea id="sm" rows="13" style="width:100%">${esc(msg(g))}</textarea><div class="bar" style="margin-top:12px"><button class="b" onclick="cp()">Copy message</button>${phone?`<button class="b" onclick="wa('${phone}')">WhatsApp guest</button>`:""}<button class="b g" onclick="dlg.close();guestPdf('${g.id}')">Guest PDF</button><button class="b g" onclick="dlg.close()">Close</button></div><small>Room category is intentionally excluded from the individual guest PDF. RSVP: Hillol 7894444767.</small>`;dlg.showModal()}
+async function cp(){const el=$("sm");try{await navigator.clipboard.writeText(el.value);toast("Message copied")}catch{el.select();document.execCommand("copy");toast("Message selected/copied")}}
+function wa(phone){window.open("https://wa.me/"+phone+"?text="+encodeURIComponent($("sm").value),"_blank","noopener")}
+const HDR=s=>`<div class="hd"><div class="orn">✦ ❧ ✦</div><div class="nm">Dhritimaan &amp; Tushali</div><div class="orn">— ❖ —</div><div class="sb">${esc(s)}</div></div>`;
+function pv(content,orientation="portrait"){pvo=orientation;const p=$("pv");p.innerHTML=`<div class="tb"><button class="b" onclick="printNow()">Print / Save as PDF</button><button class="b g" onclick="pvx()">Close preview</button></div><div class="pg ${orientation==="landscape"?"land":"port"}">${content}</div>`;p.classList.add("open")}
+function pvx(){$("pv").classList.remove("open")}
+function printNow(){window.print()}
+function guestPdf(id){
+ const g=S.g.find(x=>x.id===id);if(!g)return;const {d,v}=det(g),info=HA[g.hotel],p=t=>t?esc(D2(t)):"To be confirmed",row=(label,value)=>value?`<tr><th>${esc(label)}</th><td>${esc(value)}</td></tr>`:"",arrival=[g.aMethod,g.aName,g.aNum].filter(Boolean).join(" "),hotel=info?`<table class="pr"><tbody>${row("Hotel",g.hotel)}${row("Address",info.address)}${row("Room number",g.room||"Room Not Assigned")}${row("Check-in",p(g.cin))}${row("Check-out",p(g.cout))}</tbody></table><p><a href="${info.map}" target="_blank" rel="noopener"><b>Open hotel in Google Maps</b></a><br><span class="ft">${esc(info.map)}</span></p>`:`<table class="pr"><tbody>${row("Hotel",g.hotel||"To be confirmed")}${row("Room number",g.room||"Room Not Assigned")}${row("Check-in",p(g.cin))}${row("Check-out",p(g.cout))}</tbody></table>`;
+ let pickup="";if(d){pickup=`<div class="dv"><h2>Your Driver &amp; Pickup</h2><div class="big">${esc(d.name)}</div><div class="ph">${esc(d.phone||"")}</div><table class="pr"><tbody>${row("Car",v?(v.model||v.type)+" — "+v.reg:"Vehicle to be confirmed")}${row("Driver reports at",p(g.rep))}${row("Pickup location",g.aPlace)}${row("Your arrival",arrival)}${row("Arrival time",p(g.aAt))}</tbody></table></div>`}else{pickup=`<div class="dv"><h2>Pickup information</h2><p><b>Driver details will be shared separately.</b></p><p>Please use the hotel address and Google Maps link below if no driver has been assigned.</p></div>`}
+ const arrivalTable=(arrival||g.aAt)?`<h2>Your Arrival</h2><table class="pr"><tbody>${row("Flight / train",arrival)}${row("Arrival point",g.aPlace)}${row("Arrival time",p(g.aAt))}</tbody></table>`:"";
+ pv(HDR("The Wedding Celebrations · December 2026")+`<p style="font-size:15px">Dear <b>${esc(g.name)}</b>,</p>${pickup}${arrivalTable}<h2>Your Stay</h2>${hotel}<div class="ms">We are so happy you could join us in celebrating the wedding of Dhritimaan &amp; Tushali. Safe travels, and see you very soon!<br><br>For assistance / RSVP, please contact Hillol at <b>7894444767</b>.<br><br>With love,<br>Hillol &amp; Tapobrataa</div><p class="ft">Generated ${esc(NOW())}</p>`,"portrait");
+}
+function adminPdf(){
+ const list=[...S.g].sort((a,b)=>(a.hotel||"~").localeCompare(b.hotel||"~")||(a.name||"").localeCompare(b.name||""));
+ const rows=list.map(g=>{const {d,v}=det(g);return `<tr><td><b>${esc(g.name)}</b><br>${esc(g.phone)}</td><td>${esc(d?.name||"—")}<br>${esc(d?.phone||"")}</td><td>${esc(v?(v.model||v.type)+" — "+v.reg:"—")}</td><td>${f(g.rep)}</td><td>${esc([g.aMethod,g.aName,g.aNum].filter(Boolean).join(" "))}<br>${esc(g.aPlace)}<br>${f(g.aAt)}</td><td>${esc(g.hotel)}</td><td>${esc(g.room||"—")}<br>${esc(g.cat||"")}</td><td>In ${f(g.cin)}<br>Out ${f(g.cout)}</td><td>${esc(g.status)}</td></tr>`}).join("");
+ const roster=S.d.map(d=>{const trips=S.g.filter(g=>g.driver===d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return trips.length?`<h2>${esc(d.name)} · ${esc(d.phone)}</h2><table><thead><tr><th>Reporting</th><th>Guest</th><th>Phone</th><th>Pickup point</th><th>Vehicle</th><th>Hotel</th></tr></thead><tbody>${trips.map(g=>`<tr><td>${f(g.rep)}</td><td>${esc(g.name)}</td><td>${esc(g.phone)}</td><td>${esc(g.aPlace)}</td><td>${esc(vn(g.vehicle))}</td><td>${esc(g.hotel)}</td></tr>`).join("")}</tbody></table>`:""}).join("");
+ pv(HDR("Hospitality Admin Report · "+list.length+" guests")+`<p class="ft">Generated ${esc(NOW())}</p><table class="wide"><thead><tr><th>Guest</th><th>Driver</th><th>Vehicle</th><th>Driver reports</th><th>Arrival</th><th>Hotel</th><th>Room / category</th><th>Stay</th><th>Status</th></tr></thead><tbody>${rows||'<tr><td colspan="9">No guests yet.</td></tr>'}</tbody></table>${roster?`<h1 style="margin-top:18px;font-size:18px">Driver duty roster</h1>${roster}`:""}`,"landscape");
+}
+function drvPdf(id){
+ const drivers=S.d.filter(d=>(!id||d.id===id)&&S.g.some(g=>g.driver===d.id));if(!drivers.length){alert("No trips are assigned to export.");return}
+ const pages=drivers.map((d,i)=>{const trips=S.g.filter(g=>g.driver===d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));const rows=trips.map(g=>`<tr><td><b>${esc(g.name)}</b></td><td>${esc(g.phone)}</td><td>${esc(g.pax||1)}</td><td>${esc([g.aMethod,g.aName,g.aNum].filter(Boolean).join(" "))}<br>${f(g.aAt)}</td><td>${esc(g.aPlace)}</td><td>${esc(g.hotel)}</td><td>${esc(vn(g.vehicle))}</td><td>${esc(g.notes)}</td></tr>`).join("");return `<div style="${i?'break-before:page;page-break-before:always':''}">${HDR("Driver Duty Sheet")}<div class="dv"><div style="font-size:22px;font-weight:800">${esc(d.name)}</div><div>Phone: ${esc(d.phone)}</div><p class="ft">Assigned trips: ${trips.length} · Generated ${esc(NOW())}</p></div><table><thead><tr><th>Guest</th><th>Phone</th><th>Pax</th><th>Arrival</th><th>Pickup point</th><th>Drop at hotel</th><th>Vehicle</th><th>Notes</th></tr></thead><tbody>${rows}</tbody></table><p class="ft">Please reach the pickup point at the reporting time and keep guest phone numbers handy.</p></div>`}).join("");
+ pv(pages,"landscape");
+}
+function redPop(title,message){dlg.innerHTML=`<h2>⚠ ${esc(title)}</h2><p>${esc(message)}</p><button class="b" onclick="dlg.close()">OK</button>`;dlg.showModal()}
 startAdminApp();
-</script></body></html>
+</script>
+</body>
+</html>
