@@ -29,8 +29,6 @@
 /* Guest sheet: simple boxes with label / value rows */
 #pv .dear{font-size:15px;margin:0 0 2px}#pv .dear2{margin:0;font-size:12.5px;color:#444}#pv .gg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}#pv .gb{border:1px solid #cfc6b4;border-top:3px solid #c5a46d;border-radius:6px;padding:10px 14px;margin:0 0 12px;background:transparent}#pv .gg .gb{margin:0}#pv .gb h3{margin:0 0 4px;font-size:15px;color:#243b32}#pv .kv{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:6px 0;border-bottom:1px solid #eee4d0}#pv .kv:last-child{border-bottom:0}#pv .kv span{color:#666;font-size:10px;text-transform:uppercase;letter-spacing:.07em;flex:none}#pv .kv b{text-align:right;font-size:13px;color:#111}#pv .nt{margin:4px 0 0;font-size:12.5px;color:#333}
 #pv .ms{border-left:4px solid #c5a46d;background:#faf7f2;padding:10px 14px;margin-top:12px;font-size:13px;color:#111;border-radius:0 8px 8px 0}#pv .ft{color:#555;font-size:10px}#pv .conf{text-align:center;font-size:16px;letter-spacing:.4em;margin:8px 0 2px;color:#c5a46d}#pv a{color:#164e9c;overflow-wrap:anywhere}
-/* DT monogram watermark: repeats on every printed page */
-#pv .wm{position:fixed;left:50%;top:50%;width:120mm;height:120mm;transform:translate(-50%,-50%);opacity:.14;z-index:-1;pointer-events:none}#pv .wm svg{width:100%;height:100%;display:block}
 #pv .dv,#pv .ms,#pv .pr,#pv .gb,#pv tr{break-inside:avoid;page-break-inside:avoid}
 @media print{html,body{background:#fff}body>*:not(#pv){display:none!important}#pv.open{position:static;overflow:visible;padding:0}#pv .tb{display:none}#pv .pg{overflow:visible;width:auto!important;padding:8mm;box-shadow:none;zoom:1!important}#pv .pg table.wide{min-width:0}}@media(max-width:560px){.f{grid-template-columns:1fr}.f label.w{grid-column:auto}header h1{font-size:19px}main{padding:12px 9px 50px}nav{padding:6px}nav button{padding:8px 10px}.fs .hint{margin-left:0}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
@@ -273,9 +271,8 @@ function sheet(id){const g=S.g.find(x=>x.id===id);if(!g)return;const phone=(g.ph
 async function cp(){const el=$("sm");try{await navigator.clipboard.writeText(el.value);toast("Message copied")}catch{el.select();document.execCommand("copy");toast("Message selected/copied")}}
 function wa(phone){window.open("https://wa.me/"+phone+"?text="+encodeURIComponent($("sm").value),"_blank","noopener")}
 
-/* ---- PDF building blocks: header, DT monogram watermark ---- */
+/* ---- PDF building blocks: header ---- */
 const HDR=s=>`<div class="hd"><div class="orn">✦ ❧ ✦</div><div class="nm">Dhritimaan &amp; Tushali</div><div class="orn">— ❖ —</div><div class="sb">${esc(s)}</div></div>`;
-const WM=`<div class="wm" aria-hidden="true"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="95" fill="none" stroke="#243b32" stroke-width="4"/><circle cx="100" cy="100" r="87" fill="none" stroke="#c5a46d" stroke-width="2"/><circle cx="100" cy="100" r="76" fill="none" stroke="#c5a46d" stroke-width="1.5" stroke-dasharray="2 5"/><circle cx="100" cy="100" r="69" fill="none" stroke="#243b32" stroke-width="1.2"/><text x="62" y="124" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="64" font-weight="700" fill="#243b32">D</text><text x="140" y="124" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="64" font-weight="700" fill="#243b32">T</text><text x="101" y="108" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-style="italic" font-size="28" fill="#c5a46d">&amp;</text><text x="100" y="42" text-anchor="middle" font-size="14" fill="#c5a46d">✦</text><text x="100" y="166" text-anchor="middle" font-size="14" fill="#c5a46d">❖</text></svg></div>`;
 const mi=m=>({Flight:"✈️",Train:"🚆",Road:"🚗"}[m]||"📍");
 const stCls=s=>({"Expected":"expected","Checked in":"in","Checked out":"out"}[s]||"");
 function pv(content,orientation="portrait"){
@@ -283,7 +280,7 @@ function pv(content,orientation="portrait"){
  /* Force the print page size/orientation so Chrome does not reuse the last-used layout */
  let st=$("pgst");if(!st){st=document.createElement("style");st.id="pgst";document.head.appendChild(st)}
  st.textContent="@page{size:A4 "+orientation+";margin:0}";
- const p=$("pv");p.innerHTML=`<div class="tb"><button class="b" onclick="printNow()">Print / Save as PDF</button><button class="b g" onclick="pvx()">Close preview</button></div><div class="pg ${orientation==="landscape"?"land":"port"}">${WM}${content}</div>`;p.classList.add("open")
+ const p=$("pv");p.innerHTML=`<div class="tb"><button class="b" onclick="printNow()">Print / Save as PDF</button><button class="b g" onclick="pvx()">Close preview</button></div><div class="pg ${orientation==="landscape"?"land":"port"}">${content}</div>`;p.classList.add("open")
 }
 function pvx(){$("pv").classList.remove("open")}
 function printNow(){window.print()}
@@ -309,10 +306,9 @@ function adminPdf(){
 function hotelPdf(h){
  const info=HA[h]||{},all=S.g.filter(g=>g.hotel===h),list=all.filter(g=>g.status!=="Cancelled").sort((a,b)=>(ms(a.cin)||Infinity)-(ms(b.cin)||Infinity)||(a.name||"").localeCompare(b.name||""));
  if(!list.length){showErr("No guests are assigned to "+h+" yet, so there is nothing to export.",{title:"No guests to export"});return}
- const pax=list.reduce((n,g)=>n+(+g.pax||1),0),cats={};list.forEach(g=>{const c=g.cat||"Category not set";cats[c]=(cats[c]||0)+1});
- const catLine=Object.keys(cats).sort().map(c=>esc(c)+": <b>"+cats[c]+"</b>").join(" &nbsp;·&nbsp; "),skipped=all.length-list.length;
+ const skipped=all.length-list.length;
  const rows=list.map((g,i)=>`<tr><td>${i+1}</td><td><b>${esc(g.name)}</b>${g.vip==="Yes"?' <span class="tag warn">VIP</span>':""}</td><td>${esc(g.phone)||"—"}</td><td>${esc(g.pax||1)}</td><td><b>${esc(g.cat)||"Not set"}</b></td><td>${esc(g.room)||"—"}</td><td><b>${f(g.cin)}</b></td><td><b>${f(g.cout)}</b></td><td>${esc(g.notes)}</td></tr>`).join("");
- pv(HDR("Room Allocation List")+`<div class="dv"><div style="font-size:20px;font-weight:800">${esc(h)}</div><div>${esc(info.address||"")}</div><p style="margin:8px 0 0;font-size:12.5px"><b>${list.length}</b> guest${list.length===1?"":"s"} · <b>${pax}</b> passenger${pax===1?"":"s"} in total<br>Room categories — ${catLine}</p><p class="ft">Generated ${esc(NOW())}${skipped?" · "+skipped+" cancelled guest"+(skipped===1?"":"s")+" not listed":""}</p></div><table class="wide"><thead><tr><th style="width:4%">#</th><th style="width:18%">Guest name</th><th style="width:12%">Phone</th><th style="width:5%">Pax</th><th style="width:12%">Room category</th><th style="width:8%">Room no.</th><th style="width:15%">Check-in</th><th style="width:15%">Check-out</th><th style="width:11%">Notes</th></tr></thead><tbody>${rows}</tbody></table><p class="ft" style="margin-top:8px">Please allocate rooms as per the category and the check-in / check-out times above. For any query, contact Hillol at 7894444767.</p>`,"landscape");
+ pv(HDR("Room Allocation List")+`<div class="dv"><div style="font-size:20px;font-weight:800">${esc(h)}</div><div>${esc(info.address||"")}</div><p class="ft">Generated ${esc(NOW())}${skipped?" · "+skipped+" cancelled guest"+(skipped===1?"":"s")+" not listed":""}</p></div><table class="wide"><thead><tr><th style="width:4%">#</th><th style="width:18%">Guest name</th><th style="width:12%">Phone</th><th style="width:5%">Pax</th><th style="width:12%">Room category</th><th style="width:8%">Room no.</th><th style="width:15%">Check-in</th><th style="width:15%">Check-out</th><th style="width:11%">Notes</th></tr></thead><tbody>${rows}</tbody></table><p class="ft" style="margin-top:8px">Please allocate rooms as per the category and the check-in / check-out times above. For any query, contact Hillol at 7894444767.</p>`,"landscape");
 }
 
 /* One box per trip: Date, Time, Pickup and Train/Flight, each on its own line */
