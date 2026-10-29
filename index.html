@@ -66,6 +66,19 @@ dialog::backdrop{backdrop-filter:blur(4px);animation:fadeIn .3s}@keyframes fadeI
 #admin-login{background:linear-gradient(135deg,#151c18,#1f3a2c,#151c18,#2a4a38);background-size:300% 300%;animation:flow2 12s ease infinite}@keyframes flow2{0%,100%{background-position:0 0}50%{background-position:100% 100%}}
 #admin-login form{animation:rv .9s cubic-bezier(.2,.9,.3,1.15) backwards,floaty 6s 1s ease-in-out infinite;box-shadow:0 20px 60px #0008,0 0 0 1px #c5a46d33}@keyframes floaty{50%{transform:translateY(-8px)}}
 @media print{body::before{display:none}#sw{display:none}}
+
+/* ================= Occupancy ================= */
+.omx th{white-space:nowrap}.od{white-space:nowrap}.od b{display:block}.od small,.ot small{color:var(--mut)}.omx tr.today td.od{box-shadow:inset 4px 0 0 var(--gold)}
+.oc{cursor:pointer;min-width:165px;position:relative;transition:background .25s,box-shadow .25s}.oc:hover{background:#fff6e0}.oc.sel{background:#fff1cf;box-shadow:inset 0 0 0 2px var(--gold)}
+.oc .op b,.ot b{font:700 24px "Playfair Display",serif;color:var(--green)}.oc .op small{color:var(--mut)}.or{font-size:12px;color:var(--mut)}.bd{font-style:normal;color:var(--bad);font-weight:700}
+.obar{height:7px;border-radius:99px;background:#eee6d6;margin:6px 0 4px;overflow:hidden}.obar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7bb48f,#2e8b57);animation:grow 1s cubic-bezier(.2,.9,.3,1.1) .25s backwards}
+.oc.warn .obar i{background:linear-gradient(90deg,#f2c94c,#e39b20)}.oc.full .obar i{background:linear-gradient(90deg,#f0a040,#d9772b)}.oc.over{background:#fdeceb}.oc.over .op b{color:var(--bad)}.oc.over .obar i{background:linear-gradient(90deg,#e0644c,#a4442f);animation:grow 1s .25s backwards,pulseBar 1.4s 1.2s infinite}
+@keyframes grow{from{width:0}}@keyframes pulseBar{50%{opacity:.55}}
+.oio{display:flex;gap:4px;flex-wrap:wrap}.mu{color:var(--mut)}
+.rl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 6px;font-size:13px}.rl input{width:96px;text-align:center;font-weight:700}.rs{margin:0 0 8px;font-size:13px;color:var(--mut)}.ohead{margin:20px 0 10px}
+.occd:hover{transform:none;box-shadow:0 1px 6px #0000000d;border-color:var(--line)}.occd.flip{animation:flip .55s cubic-bezier(.2,.9,.3,1.2)}@keyframes flip{from{opacity:0;transform:perspective(900px) rotateX(-12deg) translateY(18px)}}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0 14px}.ch{background:#fffaf0;border:1px solid var(--line);border-radius:12px;padding:8px 12px;animation:rv .5s cubic-bezier(.2,.9,.3,1.2) backwards}.ch:nth-child(2){animation-delay:.06s}.ch:nth-child(3){animation-delay:.12s}.ch:nth-child(4){animation-delay:.18s}.ch:nth-child(5){animation-delay:.24s}.ch b{display:block;font:700 26px "Playfair Display",serif;color:var(--green)}.ch small{color:var(--mut)}.ch.bad{background:#fdeceb;border-color:#e8b3ad}.ch.bad b{color:var(--bad)}
+.sub{font-size:15px;margin:14px 0 6px}
 </style>
 </head>
 <body>
@@ -87,9 +100,9 @@ const HA={
  "Transitel Hotel Kolkata":{name:"Transitel - A Boutique Hotel",address:"173/4/5, VIP Road, Kaikhali, Kolkata, West Bengal 700052"}
 };
 const CATS={"Welina Hotels Bhubaneswar":["Executive","Premium"],"Marigold Hotels Bhubaneswar":["Premium","Luxury"],"Transitel Hotel Kolkata":["Premium","Club"]};
-const TABS=["Dashboard","Guests","Hotels","Arrivals","Transport","Data"];
+const TABS=["Dashboard","Guests","Hotels","Occupancy","Arrivals","Transport","Data"];
 const DEFAULT_CHECKOUT="2026-12-07T11:00"; /* 7 Dec 2026, 11:00 AM */
-const DEFAULT_DATA=()=>({g:[],d:[],v:[]});
+const DEFAULT_DATA=()=>({g:[],d:[],v:[],rooms:{}});
 let S=DEFAULT_DATA(),tab="Dashboard",q="",hf="",sf="",adminReady=false,curG=null,pvo="portrait",errAct=null,lastTab=null;
 const $=id=>document.getElementById(id),dlg=$("dlg"),loginEl=$("admin-login"),loginForm=$("admin-login-form"),loginError=$("admin-login-error");
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -121,7 +134,7 @@ async function load(){
  if(sessionError)throw sessionError;if(!sessionData.session)throw new Error("Please sign in to continue.");
  const {data,error}=await supabaseClient.from("wedding_app_data").select("data").eq("id",1).maybeSingle();
  if(error)throw error;const saved=data&&data.data?data.data:DEFAULT_DATA();
- return {g:Array.isArray(saved.g)?saved.g:[],d:Array.isArray(saved.d)?saved.d:[],v:Array.isArray(saved.v)?saved.v:[]};
+ return {g:Array.isArray(saved.g)?saved.g:[],d:Array.isArray(saved.d)?saved.d:[],v:Array.isArray(saved.v)?saved.v:[],rooms:saved.rooms&&typeof saved.rooms==="object"?saved.rooms:{}};
 }
 async function save(){
  if(!adminReady){toast("Please sign in before saving.",true);return false}
@@ -153,7 +166,7 @@ function moveNi(){const n=$("nav"),b=n.querySelector("button.on"),i=$("ni");if(!
 addEventListener("resize",moveNi);
 function render(){
  if(!adminReady)return;nav();$("m").innerHTML=V[tab]();
- if(tab==="Dashboard")setTimeout(()=>document.querySelectorAll("[data-n]").forEach(count),0);
+ if(tab==="Dashboard"||tab==="Occupancy")setTimeout(()=>document.querySelectorAll("[data-n]").forEach(count),0);
  /* Only animate when the section changes (not on every keystroke or status change) */
  if(tab!==lastTab){const dir=TABS.indexOf(tab)>=TABS.indexOf(lastTab??tab)?1:-1;lastTab=tab;animateIn(dir);sweep()}
 }
@@ -184,7 +197,19 @@ Guests(){
  return `<div class="bar"><input id="qs" placeholder="Search name, phone, room, flight/train" value="${esc(q)}" oninput="q=this.value;keep()"><select aria-label="Status filter" onchange="sf=this.value;render()"><option value="">All statuses</option>${["Expected","Checked in","Checked out","Cancelled"].map(s=>`<option ${s===sf?"selected":""}>${s}</option>`).join("")}</select><select onchange="hf=this.value;render()"><option value="">All hotels</option>${H.map(h=>`<option ${h===hf?"selected":""}>${esc(h)}</option>`).join("")}</select><button class="b" onclick="gForm()">+ Add guest</button><button class="b g" onclick="adminPdf()">Export all (PDF)</button><button class="b g" onclick="csv()">Prepare CSV</button></div>
  <div class="tw"><table><thead><tr><th>Guest</th><th>Hotel</th><th>Room</th><th>Stay</th><th>Status</th><th>Actions</th></tr></thead><tbody>${list.length?list.map(x=>`<tr><td><b>${esc(x.name)}</b>${x.vip==="Yes"?' <span class="tag warn">VIP</span>':""}<br><small>${esc(x.phone)} · ${esc(x.pax||1)} pax</small></td><td>${esc(x.hotel)||'<span class="tag bad">No hotel</span>'}</td><td><span class="room">${esc(x.room)||"—"}</span><br><small>${esc(x.cat)||"Category not set"}</small></td><td><small>In ${f(x.cin)}<br>Out ${f(x.cout)}</small></td><td>${stSel(x)}</td><td><button class="b s" onclick="gForm('${x.id}')">Edit</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button> <button class="b g s" onclick="del('${x.id}')">Delete</button></td></tr>`).join(""):'<tr><td colspan="6" class="empty">No guests found. Use Add guest to start.</td></tr>'}</tbody></table></div>`;
 },
-Hotels(){return `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">${H.map(h=>{const g=S.g.filter(x=>x.hotel===h),info=HA[h];return `<div class="card"><h3>${esc(h)}</h3><small>${esc(info.address)}</small><p><b>${g.length}</b> guests</p><div class="bar"><span class="tag expected">Expected ${g.filter(x=>x.status==="Expected").length}</span><span class="tag in">Checked in ${g.filter(x=>x.status==="Checked in").length}</span><span class="tag out">Checked out ${g.filter(x=>x.status==="Checked out").length}</span></div><button class="b s" onclick="hf='${h}';sf='';tab='Guests';render()">Open guest list</button> <button class="b g s" onclick="hotelPdf('${h}')">Export for hotel (PDF)</button>${g.length?g.map(x=>`<div class="row"><b>${esc(x.name)}</b>${x.room?`<span class="room">${esc(x.room)}</span>`:'<span class="tag warn">Room not assigned</span>'}<small style="flex-basis:100%">${esc(x.cat)||"Category not set"}</small>${stSel(x)}</div>`).join(""):'<div class="empty">No guests assigned.</div>'}</div>`}).join("")}</div>`},
+Hotels(){return `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">${H.map(h=>{const g=S.g.filter(x=>x.hotel===h),info=HA[h];return `<div class="card"><h3>${esc(h)}</h3><small>${esc(info.address)}</small><div class="bar" style="margin-top:12px"><span class="tag expected">Expected ${g.filter(x=>x.status==="Expected").length}</span><span class="tag in">Checked in ${g.filter(x=>x.status==="Checked in").length}</span><span class="tag out">Checked out ${g.filter(x=>x.status==="Checked out").length}</span></div><button class="b s" onclick="hf='${h}';sf='';tab='Guests';render()">Open guest list</button> <button class="b g s" onclick="hotelPdf('${h}')">Export for hotel (PDF)</button>${g.length?g.map(x=>`<div class="row"><b>${esc(x.name)}</b>${x.room?`<span class="room">${esc(x.room)}</span>`:'<span class="tag warn">Room not assigned</span>'}<small style="flex-basis:100%">${esc(x.cat)||"Category not set"}</small>${stSel(x)}</div>`).join(""):'<div class="empty">No guests assigned.</div>'}</div>`}).join("")}</div>`},
+Occupancy(){
+ const o=occData(),rooms=S.rooms||{},t=today();occSelDefault(o);
+ if(!o.rows.length&&!o.skipped.length)return `<div class="card empty">No bookings yet. Add guests with a hotel and check-in / check-out dates to see the day-by-day occupancy here.</div>`;
+ const lim=H.map((h,hi)=>{const cap=+rooms[h]||0,pk=Math.max(0,...o.rows.map(r=>r.cells[hi].rooms)),pp=Math.max(0,...o.rows.map(r=>r.cells[hi].people)),over=cap?o.rows.filter(r=>r.cells[hi].rooms>cap).length:0;
+  return `<div class="card"><h3 style="font-size:17px">${esc(h)}</h3><label class="rl">Rooms available<input type="number" min="0" inputmode="numeric" value="${cap||""}" placeholder="e.g. 20" onchange="setRooms(${hi},this.value)"></label><p class="rs">Busiest night: <b>${pk}</b> room${pk===1?"":"s"} · <b>${pp}</b> people</p>${cap?(over?`<span class="tag bad">Over capacity on ${over} night${over===1?"":"s"}</span>`:'<span class="tag ok">Within capacity</span>'):'<span class="tag warn">Set rooms to track the limit</span>'}</div>`}).join("");
+ const head=`<tr><th>Date</th>${H.map(h=>`<th>${esc(h)}</th>`).join("")}<th>Total</th></tr>`;
+ const body=o.rows.map(r=>{const tp=r.cells.reduce((n,c)=>n+c.people,0),tr=r.cells.reduce((n,c)=>n+c.rooms,0);
+  return `<tr class="${r.d===t?"today":""}"><td class="od"><b>${wd(r.d)}</b><small>${r.d.slice(0,4)}${r.d===t?" · today":""}</small></td>${r.cells.map((c,hi)=>{const cap=+rooms[H[hi]]||0,pct=cap?Math.min(100,Math.round(c.rooms/cap*100)):0,st=!cap?"":c.rooms>cap?"over":(c.rooms===cap&&c.rooms>0)?"full":pct>=75?"warn":"",free=cap?cap-c.rooms:0,empty=!c.people&&!c.ins.length&&!c.outs.length;
+   return `<td class="oc ${st} ${occHi===hi&&occD===r.d?"sel":""}" data-h="${hi}" data-d="${r.d}" onclick="occPick(${hi},'${r.d}')">${empty?'<span class="mu">—</span>':`<div class="op"><b data-n="${c.people}">0</b> <small>people</small></div><div class="or">${c.rooms} room${c.rooms===1?"":"s"}${cap?` of ${cap} · ${free<0?`<em class="bd">over by ${-free}</em>`:`${free} free`}`:""}</div>${cap&&c.rooms?`<div class="obar"><i style="width:${pct}%"></i></div>`:""}<div class="oio">${c.ins.length?`<span class="tag in">↓ ${c.ins.length} in</span>`:""}${c.outs.length?`<span class="tag out">↑ ${c.outs.length} out</span>`:""}</div>`}</td>`}).join("")}<td class="ot"><b>${tp}</b><small> people</small><div class="or">${tr} room${tr===1?"":"s"}</div></td></tr>`}).join("");
+ const sk=o.skipped.length?`<div class="card" style="border-color:#e0b25a;background:#fffaf0"><b>${o.skipped.length} booking${o.skipped.length===1?"":"s"} not counted</b><div style="margin-top:6px">${o.skipped.map(g=>`<span class="tag warn">${esc(g.name)} — ${!g.hotel?"no hotel":(!g.cin||!g.cout)?"no check-in/out":"check-out before check-in"} <button class="b g s" style="margin-left:4px" onclick="gForm('${g.id}')">Fix</button></span>`).join(" ")}</div></div>`:"";
+ return `<div class="bar"><small>Counted per night: a guest is counted on every night from check-in up to, but not including, the check-out day. Each booking uses the "Rooms required" set on the guest (default 1). Click any cell to see who is staying.</small></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">${lim}</div>${sk}<h2 class="ohead">Day-by-day occupancy</h2><div class="tw"><table class="omx"><thead>${head}</thead><tbody>${body}</tbody></table></div><div id="occ-detail" class="card occd" style="margin-top:16px">${occDetail()}</div>`;
+},
 Arrivals(){
  const list=S.g.filter(x=>x.aMethod).sort((a,b)=>ms(a.aAt)-ms(b.aAt));
  return `<div class="bar"><small>Arrival time is when the flight/train lands. Driver reporting time is when the driver must be at the pickup point.</small></div><div class="tw"><table><thead><tr><th>Guest</th><th>Arrival</th><th>Reporting</th><th>Pickup</th><th>Flags / actions</th></tr></thead><tbody>${list.length?list.map(x=>`<tr><td><b>${esc(x.name)}</b><br><small>${esc(x.pax||1)} pax → ${esc(x.hotel)}</small></td><td>${f(x.aAt)}<br><small>${esc([x.aMethod,x.aName,x.aNum].filter(Boolean).join(" "))} · ${esc(x.aPlace)}</small></td><td>${f(x.rep)}</td><td>${esc(dn(x.driver))||"—"}<br><small>${esc(vn(x.vehicle))}</small></td><td>${!x.driver?'<span class="tag bad">No driver</span>':""}${!x.vehicle?'<span class="tag bad">No vehicle</span>':""}${missing(x)?'<span class="tag warn">Missing info</span>':""}${x.driver&&x.vehicle?'<span class="tag ok">Assigned</span>':""}<br><button class="b g s" onclick="gForm('${x.id}')">Edit</button> <button class="b s" onclick="sheet('${x.id}')">Send / PDF</button></td></tr>`).join(""):'<tr><td colspan="5" class="empty">No arrivals yet.</td></tr>'}</tbody></table></div>`;
@@ -192,11 +217,45 @@ Arrivals(){
 Transport(){return `<div class="bar"><button class="b" onclick="drvPdf()">Export all drivers (PDF)</button></div><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))"><div class="card"><h3 class="hh">🚗 Drivers</h3><p><button class="b s" onclick="dForm()">+ Add driver</button></p>${S.d.length?S.d.map(d=>`<div class="row"><span><b class="dn">${esc(d.name)}</b><br><small>${esc(d.phone)}</small><br>${occTag(d)}</span><span><button class="b g s" onclick="dForm('${d.id}')">Edit</button> <button class="b g s" onclick="rm('d','${d.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No drivers added.</div>'}</div><div class="card"><h3 class="hh">🚙 Vehicles</h3><p><button class="b s" onclick="vForm()">+ Add vehicle</button></p>${S.v.length?S.v.map(v=>`<div class="row"><span><b>${esc(v.model||v.type)} — ${esc(v.reg)}</b><br><small>${esc(v.type)} · capacity ${esc(v.cap)}</small></span><span><button class="b g s" onclick="vForm('${v.id}')">Edit</button> <button class="b g s" onclick="rm('v','${v.id}')">Remove</button></span></div>`).join(""):'<div class="empty">No vehicles added.</div>'}</div></div><h2>Driver-wise schedule</h2>${S.d.map(d=>{const trips=S.g.filter(x=>x.driver===d.id).sort((a,b)=>ms(a.rep)-ms(b.rep));return `<div class="card" style="margin-bottom:10px"><div class="bar"><b class="dn">${esc(d.name)}</b><small>${esc(d.phone)}</small><button class="b s" onclick="drvPdf('${d.id}')">Export PDF</button></div>${trips.length?sched(trips):'<small>No trips assigned.</small>'}</div>`}).join("")||'<div class="empty">Add drivers to see schedules.</div>'}`},
 Data(){return `<div class="card"><h3>Backup and export</h3><p>Data is stored centrally in Supabase and shared across signed-in devices. Keep a JSON backup as an extra precaution.</p><div class="bar"><button class="b" onclick="bk()">Show backup (JSON)</button><button class="b g" onclick="rs()">Restore from pasted JSON</button><button class="b g" onclick="csv()">Prepare guest CSV</button></div><textarea id="ta" rows="12" style="width:100%" placeholder="Backup, CSV or pasted JSON appears here"></textarea><p class="ft">Restoring replaces the current guest, driver and vehicle data after confirmation.</p></div>`}
 };
+/* ---- Occupancy planner: people and rooms per hotel per night ---- */
+let occHi=-1,occD="";
+const addDay=(s,n)=>{const d=new Date(s+"T00:00:00Z");d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
+const wd=d=>new Date(d+"T00:00:00Z").toLocaleDateString("en-GB",{weekday:"short",day:"2-digit",month:"short",timeZone:"UTC"});
+const dmy=d=>d.split("-").reverse().join("/");
+function occData(){
+ const bk=[],skipped=[];
+ S.g.forEach(g=>{if(g.status==="Cancelled")return;const hi=H.indexOf(g.hotel),a=(g.cin||"").slice(0,10),b=(g.cout||"").slice(0,10);if(hi<0||!a||!b||b<a){skipped.push(g);return}bk.push({g,hi,a,b,pax:+g.pax||1,rooms:Math.max(1,+g.rooms||1)})});
+ const rows=[];if(bk.length){const lo=bk.reduce((m,x)=>x.a<m?x.a:m,bk[0].a),hi=bk.reduce((m,x)=>x.b>m?x.b:m,bk[0].b);
+  for(let d=lo,n=0;d<=hi&&n<150;d=addDay(d,1),n++){rows.push({d,cells:H.map((h,k)=>{const stay=bk.filter(x=>x.hi===k&&x.a<=d&&(d<x.b||(x.a===x.b&&d===x.a))),ins=bk.filter(x=>x.hi===k&&x.a===d),outs=bk.filter(x=>x.hi===k&&x.b===d&&x.b>x.a);return{stay,ins,outs,people:stay.reduce((n2,x)=>n2+x.pax,0),rooms:stay.reduce((n2,x)=>n2+x.rooms,0)}})})}}
+ return{rows,skipped,bk};
+}
+function occSelDefault(o){
+ if(occD&&occHi>=0&&o.rows.some(r=>r.d===occD))return;
+ const t=today(),r=o.rows.find(x=>x.d===t&&x.cells.some(c=>c.people))||o.rows.find(x=>x.cells.some(c=>c.people))||o.rows[0];
+ occD=r?r.d:"";occHi=r?Math.max(0,r.cells.findIndex(c=>c.people)):0;
+}
+function occDetail(){
+ const o=occData();occSelDefault(o);const r=o.rows.find(x=>x.d===occD);if(!r)return"";
+ const c=r.cells[occHi],h=H[occHi],cap=+(S.rooms||{})[h]||0,free=cap?cap-c.rooms:0;
+ const chip=(n,l,cls)=>`<div class="ch ${cls||""}"><b data-n="${n}">0</b><small>${l}</small></div>`;
+ const list=[...c.stay].sort((a,b)=>a.a.localeCompare(b.a)||(a.g.name||"").localeCompare(b.g.name||""));
+ const rows=list.map((x,i)=>`<tr><td>${i+1}</td><td><b>${esc(x.g.name)}</b>${x.g.vip==="Yes"?' <span class="tag warn">VIP</span>':""}${x.a===occD?' <span class="tag in">Arriving</span>':""}</td><td>${esc(x.g.phone)||"—"}</td><td>${x.pax}</td><td>${x.rooms}</td><td>${esc(x.g.cat)||"—"}</td><td>${esc(x.g.room)||"—"}</td><td>${f(x.g.cin)}</td><td>${f(x.g.cout)}</td><td><span class="tag ${stCls(x.g.status)}">${esc(x.g.status)}</span></td></tr>`).join("");
+ const outs=c.outs.length?`<h3 class="sub">Checking out on the morning of ${dmy(occD)}</h3><div>${c.outs.map(x=>`<span class="tag out">${esc(x.g.name)} · ${x.pax} pax · ${x.rooms} room${x.rooms===1?"":"s"}${x.g.room?" · "+esc(x.g.room):""}</span>`).join(" ")}</div>`:"";
+ return `<div class="bar" style="margin-bottom:0"><h3>${esc(h)}</h3><span class="tag expected">Night of ${wd(occD)} ${occD.slice(0,4)}</span></div><div class="chips">${chip(c.people,"People staying")}${chip(c.rooms,"Rooms used")}${cap?(free<0?chip(-free,"Rooms over limit","bad"):chip(free,"Rooms free")):""}${chip(c.ins.length,"Check-ins")}${chip(c.outs.length,"Check-outs")}</div>${list.length?`<div class="tw"><table><thead><tr><th>#</th><th>Booked by (primary guest)</th><th>Phone</th><th>Pax</th><th>Rooms</th><th>Room category</th><th>Room no.</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>`:`<p class="mu" style="padding:6px 0">Nobody is staying at ${esc(h)} on this night.</p>`}${outs}`;
+}
+function occPick(hi,d){
+ occHi=hi;occD=d;document.querySelectorAll(".oc.sel").forEach(x=>x.classList.remove("sel"));
+ const c=document.querySelector('.oc[data-h="'+hi+'"][data-d="'+d+'"]');if(c)c.classList.add("sel");
+ const box=$("occ-detail");if(!box)return;box.innerHTML=occDetail();box.querySelectorAll("[data-n]").forEach(count);
+ box.classList.remove("flip");void box.offsetWidth;box.classList.add("flip");box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function setRooms(hi,v){const n=Math.max(0,parseInt(v,10)||0);S.rooms=S.rooms||{};S.rooms[H[hi]]=n;save().then(ok=>{if(ok)render()})}
+
 function keep(){const p=$("qs").selectionStart;render();const i=$("qs");if(i){i.focus();i.setSelectionRange(p,p)}}
 const ta=()=>$("ta");
 function bk(){ta().value=JSON.stringify(S,null,2);ta().select()}
 function csv(){const keys=["name","phone","hotel","cat","room","cin","cout","status","pax","aMethod","aName","aNum","aPlace","aAt","rep","driver","vehicle","notes"];const data=[keys.join(",")].concat(S.g.map(g=>keys.map(k=>'"'+String(g[k]??"").replace(/"/g,'""')+'"').join(","))).join("\n");if(ta()){ta().value=data;ta().select()}else{dlg.innerHTML=`<h2>Guest CSV</h2><textarea id="csvbox" rows="12" style="width:100%">${esc(data)}</textarea><button class="b" onclick="$('csvbox').select();document.execCommand('copy');toast('CSV selected/copied')">Select / copy CSV</button><button class="b g" onclick="dlg.close()">Close</button>`;dlg.showModal()}}
-function rs(){try{const data=JSON.parse(ta().value);if(!Array.isArray(data.g)||!Array.isArray(data.d)||!Array.isArray(data.v))throw new Error();if(confirm("Replace all current data with this backup?")){S={g:data.g,d:data.d,v:data.v};save().then(ok=>{if(ok)render()})}}catch{showErr("That is not a valid wedding backup JSON. Paste the full backup text and try again.",{title:"Cannot restore"})}}
+function rs(){try{const data=JSON.parse(ta().value);if(!Array.isArray(data.g)||!Array.isArray(data.d)||!Array.isArray(data.v))throw new Error();if(confirm("Replace all current data with this backup?")){S={g:data.g,d:data.d,v:data.v,rooms:data.rooms&&typeof data.rooms==="object"?data.rooms:{}};save().then(ok=>{if(ok)render()})}}catch{showErr("That is not a valid wedding backup JSON. Paste the full backup text and try again.",{title:"Cannot restore"})}}
 
 /* ---- Animated custom dropdowns (a hidden real <select id="f_x"> keeps the value; the visible control is #dd_x) ---- */
 const normOpt=o=>Array.isArray(o)?o:[o,o===""?"— select —":o];
@@ -280,6 +339,7 @@ function gForm(id){
    ["hotel","Hotel","select",[["","— select hotel —"],...H.map(h=>[h,h])]],
    ["cat","Room category (admin only)","select",catOpts(old.hotel,old.cat)],
    ["room","Room number","text"],
+   ["rooms","Rooms required (counts towards Occupancy)","number"],
    ["cin","Check-in (auto: arrival + 1 hr)","datetime-local"],
    ["cout","Check-out","datetime-local"]
   ]},
@@ -289,10 +349,10 @@ function gForm(id){
    ["vehicle","Vehicle","select",[["","— none —"],...S.v.map(v=>[v.id,(v.model||v.type)+" — "+v.reg+" (capacity "+v.cap+")"])]]
   ]}
  ];
- form(id?"Edit guest":"Add guest",groups,old,o=>{
+ form(id?"Edit guest":"Add guest",groups,{rooms:"1",...old},o=>{
   const forced=force;force=false;
   if(!o.name)return showErr("Guest name is required.",{field:"name"});
-  o.pax=String(Math.max(1,parseInt(o.pax||"1",10)||1));const others=S.g.filter(x=>x.id!==id),warnings=[];
+  o.pax=String(Math.max(1,parseInt(o.pax||"1",10)||1));o.rooms=String(Math.max(1,parseInt(o.rooms||"1",10)||1));const others=S.g.filter(x=>x.id!==id),warnings=[];
   if(others.some(x=>x.name.toLowerCase()===o.name.toLowerCase()&&x.phone===o.phone))warnings.push("A guest with the same name and phone already exists.");
   if(o.cin&&o.cout&&ms(o.cout)<=ms(o.cin))return showErr("Check-out must be after check-in.",{field:"cout"});
   const rc=roomClash(o,others);if(rc)return showErr("Room "+o.room+" at "+o.hotel+" is already allocated to "+rc.name+". Choose another room or correct the stay dates.",{title:"Room already allocated",field:"room"});
