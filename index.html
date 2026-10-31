@@ -181,7 +181,9 @@ loginForm.addEventListener("submit",async event=>{
 });
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"||!session){S=DEFAULT_DATA();showLogin()}});
 /* Navigation: buttons are built once so the sliding pill indicator can glide between tabs */
-function nav(){const n=$("nav");if(!n.querySelector("button")){n.innerHTML='<span id="ni"></span>'+TABS.map(t=>`<button data-t="${t}" onclick="tab='${t}';render()">${esc(t)}</button>`).join("")}n.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));moveNi()}
+function nav(){const n=$("nav");if(!n.querySelector("button")){n.innerHTML='<span id="ni"></span>'+TABS.map(t=>`<button data-t="${t}" onclick="goTab('${t}')">${esc(t)}</button>`).join("")}n.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));moveNi()}
+/* Clicking the Guests tab in the menu always shows everyone (filters are only kept when you arrive from "Open guest list" or a dashboard card) */
+function goTab(t){if(t==="Guests"){hf="";sf="";q=""}tab=t;render()}
 function moveNi(){const n=$("nav"),b=n.querySelector("button.on"),i=$("ni");if(!b||!i)return;i.style.width=b.offsetWidth+"px";i.style.transform="translateX("+b.offsetLeft+"px)";n.scrollTo({left:b.offsetLeft-(n.clientWidth-b.offsetWidth)/2,behavior:"smooth"})}
 addEventListener("resize",moveNi);
 function render(){
